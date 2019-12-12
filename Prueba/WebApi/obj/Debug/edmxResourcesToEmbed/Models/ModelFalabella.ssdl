@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FalabellaSegurosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Aliados">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Aliado" Type="nchar" MaxLength="10" />
+    <Property Name="estado" Type="bit" />
+  </EntityType>
+  <EntityType Name="Clientes">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nchar" MaxLength="100" />
+    <Property Name="Apellidos" Type="nchar" MaxLength="100" />
+    <Property Name="Identificacion" Type="int" />
+    <Property Name="Direccion" Type="text" />
+    <Property Name="Email" Type="text" />
+    <Property Name="estado" Type="bit" />
+  </EntityType>
+  <EntityType Name="CompraProducto">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdProducto" Type="int" />
+    <Property Name="IdCliente" Type="int" />
+    <Property Name="Fecha" Type="date" />
+    <Property Name="estado" Type="bit" />
+  </EntityType>
+  <EntityType Name="Productos">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idAliado" Type="int" Nullable="false" />
+    <Property Name="Producto" Type="text" />
+    <Property Name="valor" Type="int" />
+    <Property Name="descripcion" Type="text" />
+    <Property Name="estado" Type="bit" />
+  </EntityType>
+  <EntityContainer Name="FalabellaSegurosModelStoreContainer">
+    <EntitySet Name="Aliados" EntityType="Self.Aliados" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CompraProducto" EntityType="Self.CompraProducto" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

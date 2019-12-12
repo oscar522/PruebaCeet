@@ -1,0 +1,75 @@
+﻿@model IEnumerable<DtoModels.DtoCompraProducto>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Crear")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdProducto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreProducto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdAliado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreAliado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdCliente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreCliente)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>*@
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdProducto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreProducto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdAliado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreAliado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdCliente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreCliente)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Fecha)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.Estado)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { idTable=item.id }) |
+            @Html.ActionLink("Details", "Details", new { idTable=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { idTable=item.id })
+        </td>
+    </tr>
+}
+
+</table>
