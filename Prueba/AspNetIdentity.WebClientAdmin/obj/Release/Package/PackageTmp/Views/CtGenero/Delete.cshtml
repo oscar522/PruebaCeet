@@ -1,0 +1,29 @@
+﻿@model AspNetIdentity.Models.HvCtGeneroModel
+
+@{
+    ViewBag.Title = "Borrar Genero" + @Html.DisplayFor(modelItem => Model.NOMBRE);
+}
+
+
+                <dl class="dl-horizontal">
+                   
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NOMBRE)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NOMBRE)
+                    </dd>
+
+                </dl>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Borrar" class="btn btn-primary" />  |
+                   
+                </div>
+                }
+         

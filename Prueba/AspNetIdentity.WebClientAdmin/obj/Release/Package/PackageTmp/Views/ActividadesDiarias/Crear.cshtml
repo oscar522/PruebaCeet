@@ -1,0 +1,484 @@
+﻿@model AspNetIdentity.Models.ActividadesDiariasModel
+
+@section Scripts
+             {
+    @Scripts.Render("~/Scripts/ModalControl.js")
+    <script>
+        $(document).ready(function () {
+
+                                    // FechaActividad Cantidad
+            $("#FechaActividad").val("");
+            $("#Cantidad").val("");
+
+            $("#IdRolActividad").change(function () {
+                $("#IdActividad").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("TipoActividadList")', // we are calling json method
+                    dataType: 'json',
+                    data: { RolId: $("#IdRolActividad").val() },
+                    success: function(states) {
+
+                        $.each(states, function (i, state) {
+                            //$("#IdDepto").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                                $("#IdActividad").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        console.log(ex.responseText);
+                    }
+                });
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("RolList")', // we are calling json method
+                dataType: 'json',
+                success: function(states) {
+                    //  alert("okdepto" + $("#ID_CT_DEPTO").val());
+                    $.each(states, function (i, state) {
+                        //  alert(state.Value);
+                        $("#IdRolActividad").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    console.log(ex.responseText);
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ProcesoList")', // we are calling json method
+                dataType: 'json',
+                success: function(states) {
+                    //  alert("okdepto" + $("#ID_CT_DEPTO").val());
+                    $.each(states, function (i, state) {
+                        //  alert(state.Value);
+                        $("#IdProceso").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    console.log(ex.responseText);
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ModalidadList")', // we are calling json method
+                dataType: 'json',
+                success: function(states) {
+                    //  alert("okdepto" + $("#ID_CT_DEPTO").val());
+                    $.each(states, function (i, state) {
+                        //  alert(state.Value);
+                        $("#IdModalidad").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    console.log(ex.responseText);
+                }
+            });
+
+            var oTable = $('#table_General').dataTable({
+                "language": { "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json" },
+                "paging": true,
+                "searching":true,
+                "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false
+                }],
+
+                 dom: "B<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'<'#colvis'>p>>",
+                buttons: [
+                    { "extend": 'pdf', "text":'Pdf',"className": 'btn-outline-success' },
+                    { "extend": 'excel', "text":'Exc',"className": ' btn-outline-success ' },
+                    { "extend": 'print', "text":'Imp',"className": ' btn-outline-success ' }
+                ]
+             });
+
+            //var oTable2 = $('#table_User').dataTable({
+            //    "language": { "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json" },
+            //    "paging": true,
+            //    "searching":true,
+            //    "columnDefs": [
+            //    {
+            //        "targets": [ 0 ],
+            //        "visible": false,
+            //        "searchable": false
+            //    }],
+
+            //     dom: "B<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'<'#colvis'>p>>",
+            //    buttons: [
+            //        { "extend": 'pdf', "text":'Pdf',"className": 'btn-outline-success' },
+            //        { "extend": 'excel', "text":'Exc',"className": ' btn-outline-success ' },
+            //        { "extend": 'print', "text":'Imp',"className": ' btn-outline-success ' }
+            //    ]
+            // });
+
+            function TablaGeneral() {
+                 $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ListGeneral")',
+                    dataType: 'json',
+                    success: function (s) {
+                        oTable.fnClearTable();
+                        debugger;
+                       
+                        $.each(s, function (i, obj) {
+
+                            var Delete = "";
+
+                            if ($("#RolUsuario").val() == "Administrator") {
+                                Delete =  '<z1 target="_blank" href=' + obj.Id + '  style="color: #013ADF;"><i class="fa fa-times-circle" aria-hidden="true"></i></z1>';
+                            }
+
+                            oTable.fnAddData([
+                                obj.Id,
+                                obj.FechaActividadS ,
+                                obj.NombreProceso ,
+                                obj.NombreModalidad ,
+                                obj.RolUsuario ,
+                                obj.NombreUsuario ,
+                                obj.NombreRolActividad ,
+                                obj.NombreActividad ,
+                                obj.Cantidad ,
+                                obj.Observacion,
+                                Delete
+                            ]);
+                        });
+                        return false;
+                    },
+                    error: function(e){
+                        oTable.fnClearTable();
+                        return false;
+                    }
+                });
+            }
+            TablaGeneral();
+
+            var tabla2 = $('#table_General').DataTable();
+            $('#table_General tbody').on('click', 'z1', function () {
+                var data = tabla2.row($(this).parents('tr')).data();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("DeleteActivity")', // we are calling json method
+                    dataType: 'json',
+                    data: { Id: data[0] },
+                    success: function(states) {
+                        TablaGeneral();
+                        alert(states);
+                    },
+                    error: function (ex) {
+                        console.log(ex.responseText);
+                    }
+                });
+
+            });
+            @*function TablaUser() {
+                 $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ListUser")',
+                     dataType: 'json',
+                    data: { Id: '@Model.IdApsNetUser' },
+                    success: function (s) {
+                        oTable2.fnClearTable();
+                        debugger;
+                        var Delete = "";
+                        alert($("#RolUsuario").val());
+                        if ($("#RolUsuario").val() == "Administrator") {
+                             alert($("#RolUsuario").val()+ " 1");
+                             Delete = "x";
+                                }
+                        $.each(s, function (i, obj) {
+                            oTable2.fnAddData([
+                                obj.NombreUsuario ,
+                                obj.FechaActividadS ,
+                                obj.RolUsuario ,
+                                obj.NombreActividad ,
+                                obj.Cantidad ,
+                                obj.Observacion,
+                                Delete
+                            ]);
+                        });
+
+                        return false;
+                    },
+                    error: function(e){
+                        oTable2.fnClearTable();
+                        return false;
+                    }
+                });
+            }
+            TablaUser();*@
+
+            $("form").submit(function (event) {
+                var estado  = false;
+                if ($("#FechaActividad").val() == "") {
+                    estado = true;
+                    $('span[data-valmsg-for="FechaActividad"]').text("* Requerido");
+
+                } else {
+
+                    var fechain = new Date($('#FechaActividad').val());
+                    var dias = 1; // Número de días a agregar
+                    fechain.setDate(fechain.getDate() + dias);
+
+                    var fechaAc = new Date(); //Fecha actual
+                    var dias = 2; // Número de días a agregar
+                    fechaAc.setDate(fechaAc.getDate() - dias);
+
+                    //if (fechaAc > fechain ) {
+                    //$('span[data-valmsg-for="FechaActividad"]').text("* La fecha no puede ser menor a dos dias de la actual");
+                    //}
+                }
+                if ($("#IdActividad").val() == 0) {
+                    estado = true;
+                    $('span[data-valmsg-for="IdActividad"]').text("* Requerido");
+                }
+                if ($("#IdRolActividad").val() == "") {
+                    estado = true;
+                    $('span[data-valmsg-for="IdRolActividad"]').text("* Requerido");
+                }
+                if ($("#Cantidad").val() == 0) {
+                    estado = true;
+                    $('span[data-valmsg-for="Cantidad"]').text("* Requerido");
+                }
+                if ($("#Observacion").val() == "") {
+                    estado = true;
+                    $('span[data-valmsg-for="Observacion"]').text("* Requerido");
+                }
+                if ($("#IdProceso").val() == "") {
+                    estado = true;
+                    $('span[data-valmsg-for="IdProceso"]').text("* Requerido");
+                }
+                if ($("#IdModalidad").val() == "") {
+                    estado = true;
+                    $('span[data-valmsg-for="IdModalidad"]').text("* Requerido");
+                }
+
+                if (estado == true) {
+                    return false;
+                } else {
+                    return true;
+                }
+
+        });
+        });
+    </script>
+
+}
+<div class="card mb-4 wow fadeIn">
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">Seguimiento</h3>
+        <h6>
+            Ususario : @Model.NombreUsuario <br />
+            Rol :  @Model.RolUsuario
+        </h6>
+    </div>
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="row justify-content-sm-center ">
+            <div class="card col-md-4">
+                <div class="card-body">
+                    @using (Html.BeginForm("Crear", "ActividadesDiarias", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <h5>Actividades</h5>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.IdApsNetUser, new { htmlAttributes = new { @class = "form-control", @style = "display:none", @value = Model.IdApsNetUser } })
+                            @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control", @style = "display:none", @value = true } })
+                            @Html.EditorFor(model => model.NombreUsuario, new { htmlAttributes = new { @class = "form-control", @style = "display:none", @value = Model.NombreUsuario } })
+                            @Html.EditorFor(model => model.RolUsuario, new { htmlAttributes = new { @class = "form-control", @style = "display:none", @value = Model.RolUsuario } })
+                            @Html.EditorFor(model => model.NombreActividad, new { htmlAttributes = new { @style = "display:none", @Value = "N_A" } })
+                            @Html.EditorFor(model => model.FechaActividadS, new { htmlAttributes = new { @style = "display:none", @Value = "N_A" } })
+                            @Html.EditorFor(model => model.NombreModalidad, new { htmlAttributes = new { @style = "display:none", @Value = "N_A" } })
+                            @Html.EditorFor(model => model.NombreProceso, new { htmlAttributes = new { @style = "display:none", @Value = "N_A" } })
+                            @Html.EditorFor(model => model.NombreRolActividad, new { htmlAttributes = new { @style = "display:none", @Value = "N_A" } })
+
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="control-label col-md-12">Fecha</label>
+                                </div>
+
+                                <div class="col-md-7">
+                                    @Html.EditorFor(model => model.FechaActividad, new { htmlAttributes = new { @class = "form-control", @Type = "date" } })
+                                    @Html.ValidationMessageFor(model => model.FechaActividad, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="control-label col-md-12">Proceso</label>
+                                </div>
+                                <div class="col-md-7">
+                                    @Html.DropDownList("IdProceso", new SelectList(string.Empty, "Value", "Text"), "Seleccione", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IdProceso, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="control-label col-md-12">Modalidad</label>
+                                </div>
+                                <div class="col-md-7">
+                                    @Html.DropDownList("IdModalidad", new SelectList(string.Empty, "Value", "Text"), "Seleccione", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IdModalidad, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="control-label col-md-12">Rol</label>
+                                </div>
+                                <div class="col-md-7">
+                                    @Html.DropDownList("IdRolActividad", new SelectList(string.Empty, "Value", "Text"), "Seleccione", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IdRolActividad, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="control-label col-md-12">Actividad</label>
+                                </div>
+                                <div class="col-md-7">
+                                    @Html.DropDownList("IdActividad", new SelectList(string.Empty, "Value", "Text"), "Seleccione", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IdActividad, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    @Html.LabelFor(model => model.Cantidad, htmlAttributes: new { @class = "control-label col-md-12" })
+                                </div>
+                                <div class="col-md-7">
+                                    @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    @Html.LabelFor(model => model.Observacion, htmlAttributes: new { @class = "control-label col-md-12" })
+                                </div>
+                                <div class="col-md-7">
+                                    <textarea id="Observacion" name="Observacion" class="form-control col-md-12"></textarea>
+                                    @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-12 justify-content-center text-center">
+                                    <input type="submit" value="Create" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+
+            <div class="">
+                &nbsp;
+            </div>
+
+            <div class="card col-md-7">
+                <div class="card-body">
+                    <div class="form-horizontal">
+                        <div class="col-md-12">
+                            <h5>Resumen Actividades</h5>
+                            <hr />
+                            <div class="table-responsive ">
+                                <table class="table table-hover " id="table_General">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Id
+                                            </th>
+                                            <th>
+                                                Fecha
+                                            </th>
+                                            <th>
+                                                Proceso
+                                            </th>
+                                            <th>
+                                                Modalidad
+                                            </th>
+                                            <th>
+                                                Rol
+                                            </th>
+                                            <th>
+                                                Usuario
+                                            </th>
+                                            <th>
+                                                Rol
+                                            </th>
+                                            <th>
+                                                Actividad
+                                            </th>
+                                            <th>
+                                                Cantidad
+                                            </th>
+                                            <th>
+                                                Observacion
+                                            </th>
+                                            @if (@Model.RolUsuario == "Administrator")
+                                            {
+                                                <th>
+                                                </th>
+
+
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<br />
+            <div class="row justify-content-sm-center ">
+                <div class="card col-md-5">
+                    <div class="col-md-12">
+                        <div class="table-responsive ">
+                            <table class="table table-hover " id="table_User">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Usuario
+                                        </th>
+                                        <th>Fecha</th>
+                                        <th>
+                                            Rol
+                                        </th>
+                                        <th>
+                                            Actividad
+                                        </th>
+                                        <th>
+                                            Cantidad
+                                        </th>
+                                        <th>
+                                            Observacion
+                                        </th>
+                                        <th>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-auto">
+                    &nbsp;
+                </div>
+                <div class=" col-md-6">
+
+                </div>
+            </div>*@
+    </div>
+</div>

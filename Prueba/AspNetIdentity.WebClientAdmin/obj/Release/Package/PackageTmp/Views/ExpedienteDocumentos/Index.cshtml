@@ -1,0 +1,101 @@
+﻿@model IEnumerable<AspNetIdentity.Models.ExpedienteDocumentosModel>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdRetencionDocumental)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreRetencionDocumental)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdExpediente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreExpediente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PagInicial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PagFinal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaInserta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaModifica)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioInserta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioModifica)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdRetencionDocumental)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreRetencionDocumental)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdExpediente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreExpediente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PagInicial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PagFinal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaInserta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaModifica)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioInserta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioModifica)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

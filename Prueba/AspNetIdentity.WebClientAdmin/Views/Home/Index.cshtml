@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@*<div class="jumbotron">
+        <h1>GESTORES TALENTO HUMANO</h1>
+        <p class="lead text-justify">
+            Compañía con 10 años en el mercado, orientada a la comercialización de herramientas de evaluación online, facilitando tus procesos de selección, desarrollo y retención del Talento Humano. También aportamos valor a nuestros clientes, ofreciendo diversas soluciones on-line para elevar la cultura ética organizacional.
+        </p>
+    </div>*@
+<!-- Jumbotron -->
+
+<div class="row">
+    <div class="col-md-4">
+        <!-- Card -->
+        <div class="card">
+
+            <!-- Card image -->
+            @*<img class="card-img-top" src="https://image.freepik.com/vector-gratis/gente-negocios-lupa-graficos_1262-18918.jpg" alt="Card image cap">*@
+
+            <!-- Card content -->
+            <div class="card-body">
+
+                <!-- Title -->
+                <h4 class="card-title"><a>Numero de Procesos</a></h4>
+                <!-- Text -->
+                <p class="card-text text-justify">
+                    100
+                </p>
+                <!-- Button -->
+                <a href="#" class="btn btn-primary">Ver Más &raquo;</a>
+
+            </div>
+
+        </div>
+        <!-- Card -->
+    </div>
+    <div class="col-md-4">
+        <!-- Card -->
+        <div class="card">
+
+            <!-- Card image -->
+            @*<img class="card-img-top" src="https://image.freepik.com/vector-gratis/personas-conectando-piezas-rompecabezas-cabeza-juntos_53876-66066.jpg" alt="Card image cap">*@
+
+            <!-- Card content -->
+            <div class="card-body">
+
+                <!-- Title -->
+                @*<h4 class="card-title"><a>Test de Personalidad</a></h4>*@
+                <!-- Text -->
+                @*<p class="card-text text-justify">
+                        El Test de Personalidad GTH se basa en las recientes teorías de personalidad y fue desarrollado para el ámbito organizacional, definiendo 5 factores.
+                    </p>*@
+                <!-- Button -->
+                <a href="#" class="btn btn-primary">Leer más &raquo;</a>
+
+            </div>
+
+        </div>
+        <!-- Card -->
+    </div>
+    <div class="col-md-4">
+        <!-- Card -->
+        <div class="card">
+
+            <!-- Card image -->
+            @*<img class="card-img-top" src="https://image.freepik.com/vector-gratis/empresarios-trabajando-cerebro-graficos-dispositivos-digitales_1262-18908.jpg" alt="Card image cap">*@
+
+            <!-- Card content -->
+            <div class="card-body">
+
+                <!-- Title -->
+                @*<h4 class="card-title"><a>Test de Inteligencia</a></h4>*@
+                <!-- Text -->
+                @*<p class="card-text text-justify">
+                        El Test de Inteligencia GTH se basa en las recientes teorías de inteligencia y fue desarrollado para el ámbito organizacional, definido por 10 factores.
+                    </p>*@
+                <!-- Button -->
+                <a href="#" class="btn btn-primary">Leer más &raquo;</a>
+
+            </div>
+
+        </div>
+        <!-- Card -->
+    </div>
+</div>
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on('click', '#DatosBasicos', function (event) {
+            let id = this.id;
+            window.location.href = "@Url.Action("../HvDatosBasicos/EditPersona", "Edit", new { IdTable = 0 })";
+            return false
+        });
+    });
+
+</script>

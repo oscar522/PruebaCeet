@@ -1,0 +1,346 @@
+﻿@model AspNetIdentity.Models.HvDatosBasicosModel
+
+
+@{
+    ViewBag.Title = "Datos Basicos " + @Html.DisplayFor(modelItem => Model.IDENTIFICACION);
+}
+
+@section Scripts
+             {
+  @Scripts.Render("~/Scripts/ModalControl.js")
+
+
+}
+
+<html lang="en">
+<head>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var decodedData = window.atob('@Model.IMAGE_NAME');
+            $("#DivImageName").html("<img class='text - center img - responsive center - block' src='" + decodedData + "' /><hr />");
+            $.ajax({
+            type: 'POST',
+                url: '@Url.Action("ListUserProgress")', // we are calling json method
+            data: { id: '@Model.ID_DATOS_BASICOS' },
+            dataType: 'json',
+            success: function(states) {
+                console.log(states);
+                var a = 6;
+                var b = 100;
+                var c = states + 1 ;
+                var respuesta = (b * c)/a;
+                //console.log(Total);
+                //var Porcen = Total * 100;
+                //console.log(Porcen);
+                //var PorcenT = (respuesta / Porcen) ;
+                $("#barra").width(respuesta+"%");
+                $("#barra").text(respuesta.toFixed(2) + "% Completo de su curriculum vitae");
+                $("#total").text("Perfil Completo " + respuesta.toFixed(2)+" % ");
+
+            },
+            error: function (ex) {
+                console.log(ex.responseText);
+            }
+            });
+            $.ajax({
+                type: "POST",
+                url: "/HvActitudes/Index",
+                data: '{IdP: "' + @Model.ID_DATOS_BASICOS + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (response) {
+                    $('#DivActitudes').html("<br>" +response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: "/HvConocimientos/Index",
+                data: '{IdP: "' + @Model.ID_DATOS_BASICOS + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (response) {
+                    $('#DivConocimientos').html("<br>"+response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: "/HvEstudios/Index",
+                data: '{IdP: "' + @Model.ID_DATOS_BASICOS + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (response) {
+                    $('#DivEstudios').html("<br>"+response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: "/HvExperiencia/Index",
+                data: '{IdP: "' + @Model.ID_DATOS_BASICOS + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (response) {
+                    $('#DivExperiencia').html("<br>"+response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: "/HvUbicacion/Index",
+                data: '{IdP: "' + @Model.ID_DATOS_BASICOS + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (response) {
+                    $('#DivUbicacion').html("<br>"+response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        });
+
+    </script>
+    <style>
+        .progress {
+            height: 50px;
+        }
+            .progress > svg {
+                height: 100%;
+                display: block;
+            }
+    </style>
+</head>
+<body>
+    <div class="card mb-4 wow fadeIn">
+
+        <!--Card content-->
+        <div class="card-body d-sm-flex justify-content-between">
+            <h3 class="card-title">Detalle Datos Basicos</h3>
+            <p class="card-text">Hoja de Vida / Datos Basicos </p>
+        </div>
+
+    </div>
+    <div class="row wow fadeIn">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card text-white blue darken-3">
+                    <h3 class="card-title"> Datos Basicos   @Html.DisplayFor(model => model.NOMBRES) @Html.DisplayFor(model => model.APELLIDOS)</h3>
+                    <p class="card-text">Hoja de Vida / Datos Basicos </p>
+
+                </div>
+                <div class="card-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-offset-2 col-md-4 text-center">
+                                    <div class="center-block">
+                                        <div id="DivImageName"></div>
+                                        <div id="total"></div>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%;font-size:100%" id="barra"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="center-block">
+                                        <p align="justify">  @Html.DisplayFor(model => model.DESCRIPCION)</p><hr />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <dl class="dl-horizontal">
+                                        <dt>
+                                            IDENTIFICACION
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.NOMBRE_TIPO_IDENTIFICACION) - @Html.DisplayFor(model => model.IDENTIFICACION)
+                                        </dd>
+
+                                        <dt>
+                                            NOMBRE Y APELLIDOS
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.NOMBRES) @Html.DisplayFor(model => model.APELLIDOS)
+                                        </dd>
+                                        <dt>
+                                            LUGAR DE NACIMENTO
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.NOMBRE_PAIS) - @Html.DisplayFor(model => model.NOMBRE_DEPTO) - @Html.DisplayFor(model => model.NOMBRE_CIUDAD)
+                                        </dd>
+
+                                        <dt>
+                                            ESTADO CIVIL
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.NOMBRE_ESTADO_CIVIL)
+                                        </dd>
+
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.F_NACIMIENTO)
+                                        </dt>
+
+                                        <dd>
+
+                                            @Convert.ToDateTime(Model.F_NACIMIENTO).ToString("dd/MM/yyyy")
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.GENERO)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.NOMBRE_GENERO)
+                                        </dd>
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.NOMBRE_PERFIL)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.NOMBRE_PERFIL)
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="card">
+                <div class="card-header text-right text-white blue darken-3"><h4>Actitudes</h4> </div>
+                <div class="card-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <a href="#" aling="rigth" onclick="EjecutarModalSlim ('@Model.ID_DATOS_BASICOS','HvActitudes','Crear'); return false;" title="Modificar" style="color: #013ADF;"><i class="fa fa-address-book" aria-hidden="true"></i> Crear Actitudes</a>
+                                    <div id="DivActitudes"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="card">
+                <div class="card-header text-right text-white blue darken-3"><h4>Conocimientos</h4> </div>
+                <div class="card-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <a href="#" onclick="EjecutarModalSlim ('@Model.ID_DATOS_BASICOS','HvConocimientos','Crear'); return false;" title="Crear" style="color: #013ADF;"><i class="fa fa-address-book" aria-hidden="true"></i> Crear Conocimientos</a>
+                                    <div id="DivConocimientos"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="card">
+                <div class="card-header text-right text-white blue darken-3"><h4>Estudios</h4> </div>
+                <div class="card-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <a href="#" onclick="EjecutarModalSlim ('@Model.ID_DATOS_BASICOS','HvEstudios','Crear'); return false;" title="Crear" style="color: #013ADF;"><i class="fa fa-address-book" aria-hidden="true"></i> Crear Estudios</a>
+                                    <div id="DivEstudios"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="card">
+                <div class="card-header text-right text-white blue darken-3"><h4>Experiencia</h4> </div>
+                <div class="card-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <a href="#" onclick="EjecutarModalSlim ('@Model.ID_DATOS_BASICOS','HvExperiencia','Crear'); return false;" title="Crear" style="color: #013ADF;"><i class="fa fa-address-book" aria-hidden="true"></i> Crear Experiencia</a>
+                                    <div id="DivExperiencia"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="card">
+                <div class="card-header text-right text-white blue darken-3"><h4>Ubicacion</h4> </div>
+                <div class="card-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <a href="#" onclick="EjecutarModalSlim ('@Model.ID_DATOS_BASICOS','HvUbicacion','Crear','CREAR UBICACION'); return false;" title="Crear" style="color: #013ADF;"><i class="fa fa-address-book" aria-hidden="true"></i> Crear Ubicacion</a>
+                                    <div id="DivUbicacion"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      
+    <div class="modal fade" id="centralModalLGInfoDemo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header text-white blue darken-">
+                    <p class="heading lead 3">Modal Info</p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">×</span>
+                    </button>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+                </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                    <a type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal" onclick="location.reload()">Cerrar</a>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- Modal: modalCart -->
+</body>
+</html>

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\balle\\Source\\Repos\\PruebaFalabella\\Prueba\\DtoModels\\DtoModels.csproj": {}
+    "C:\\Users\\balle\\Desktop\\PruebaCeet\\PruebaFalabella\\Prueba\\DtoModels\\DtoModels.csproj": {}
   },
   "projects": {
-    "C:\\Users\\balle\\Source\\Repos\\PruebaFalabella\\Prueba\\DtoModels\\DtoModels.csproj": {
+    "C:\\Users\\balle\\Desktop\\PruebaCeet\\PruebaFalabella\\Prueba\\DtoModels\\DtoModels.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\balle\\Source\\Repos\\PruebaFalabella\\Prueba\\DtoModels\\DtoModels.csproj",
+        "projectUniqueName": "C:\\Users\\balle\\Desktop\\PruebaCeet\\PruebaFalabella\\Prueba\\DtoModels\\DtoModels.csproj",
         "projectName": "DtoModels",
-        "projectPath": "C:\\Users\\balle\\Source\\Repos\\PruebaFalabella\\Prueba\\DtoModels\\DtoModels.csproj",
+        "projectPath": "C:\\Users\\balle\\Desktop\\PruebaCeet\\PruebaFalabella\\Prueba\\DtoModels\\DtoModels.csproj",
         "packagesPath": "C:\\Users\\balle\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\balle\\Source\\Repos\\PruebaFalabella\\Prueba\\DtoModels\\obj\\",
+        "outputPath": "C:\\Users\\balle\\Desktop\\PruebaCeet\\PruebaFalabella\\Prueba\\DtoModels\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",

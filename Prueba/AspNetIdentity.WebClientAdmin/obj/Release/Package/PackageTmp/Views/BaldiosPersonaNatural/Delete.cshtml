@@ -1,0 +1,208 @@
+﻿@model AspNetIdentity.Models.BaldiosPersonaNaturalModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>BaldiosPersonaNaturalModel</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.NumeroExpediente)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.NumeroExpediente)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IdDepto)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IdDepto)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreIdDepto)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.NombreIdDepto)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IdCiudad)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IdCiudad)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreIdCiudad)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.NombreIdCiudad)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Vereda)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Vereda)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.NombrePredio)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.NombrePredio)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreBeneficiario)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.NombreBeneficiario)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IdTipoIdentificacion)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IdTipoIdentificacion)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreIdTipoIdentificacion)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.NombreIdTipoIdentificacion)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Identificacion)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Identificacion)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IdGenero)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IdGenero)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreIdGenero)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.NombreIdGenero)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IdTipoIdentificacionConyuge)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IdTipoIdentificacionConyuge)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreIdTipoIdentificacionConyuge)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.NombreIdTipoIdentificacionConyuge)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IdentificacionConyuge)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IdentificacionConyuge)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreConyuge)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.NombreConyuge)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.EstadoInicialMigracion)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.EstadoInicialMigracion)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IdAspNetUser)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IdAspNetUser)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreIdAspNetUser)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.NombreIdAspNetUser)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.EstadoCaracterizacion)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.EstadoCaracterizacion)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.RutaArchivoOriginal)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.RutaArchivoOriginal)
+            </dd>
+    
+        </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+</body>
+</html>

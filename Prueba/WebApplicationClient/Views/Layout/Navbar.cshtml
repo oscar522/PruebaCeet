@@ -1,0 +1,57 @@
+﻿<nav class="navbar fixed-top navbar-expand-lg navbar-dark green darken-3 scrolling-navbar" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+
+        <!-- Brand -->
+        <a class="navbar-brand waves-effect" href="#" target="_blank">
+            <i class="fa fa-bars "></i> <strong>Zonas Focalizadas</strong>
+        </a>
+
+        <!-- Collapse -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <!-- Left -->
+            <ul class="navbar-nav mr-auto">
+                &nbsp;
+            </ul>
+
+            <!-- Right -->
+            <ul class="navbar-nav nav-flex-icons">
+                @*<li class="nav-item">
+                    <a href="https://es-la.facebook.com/gestoresth/" class="nav-link waves-effect" target="_blank">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://twitter.com/gestalentoh" class="nav-link waves-effect" target="_blank">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://www.linkedin.com/company/gestoresth" class="nav-link waves-effect" target="_blank">
+                        <i class="fa fa-linkedin"></i>
+                    </a>
+                </li>*@
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user"></i> @ViewBag.FullName
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                        @*<a class="dropdown-item" href="#"> Mi cuenta</a>
+                        <a href="javascript:void(0);" data-id="@ViewBag.Id_User" class="modalUser dropdown-item" data-toggle="modal" data-placement="top" title="Editar" data-target="#centralModal"> Mi cuenta</a>*@ 
+
+                        <a class="dropdown-item" href="@Url.Action("LogOff","Account")"> Salir</a>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+</nav>

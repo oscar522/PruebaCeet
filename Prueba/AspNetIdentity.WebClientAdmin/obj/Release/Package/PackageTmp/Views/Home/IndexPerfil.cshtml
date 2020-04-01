@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+}
+<div class="card mb-4 wow fadeIn">
+
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title"> Parametrizador Perfil</h3>
+        <p class="card-text">Perfil</p>
+    </div>
+
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">  </div>
+            <div class="card-body">
+
+                <strong class="card-text fa fa-comment "> Idiomas </strong>
+                <hr />
+                <ul class="list-inline">
+                    <li class="list-inline-item col-md-2">
+                        <a href="@Url.Action("../PerfilCtIdiomas", "Index")" class="list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Idiomas
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="list-inline-item col-md-2">
+                        <a href="@Url.Action("../PerfilCtIdiomasNivel", "Index")" class="list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Niveles Requeridos
+                            </strong>
+                        </a>
+                    </li>
+                </ul>
+                <hr />
+                <strong class="card-text fa fa-file "> Areas,Sub Areas y Nivel Puesto </strong>
+                <hr />
+                <ul class="list-inline">
+                    <li class="list-inline-item col-md-2">
+                        <a href="@Url.Action("../PerfilCtArea", "Index")" class="list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Area del Perfil
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="list-inline-item col-md-2">
+                        <a href="@Url.Action("../PerfilCtSubArea", "Index")" class="list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Sub Area del Perfil
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="list-inline-item col-md-2">
+                        <a href="@Url.Action("../PerfilCtNivelPuesto", "Index")" class="list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Nivel Puesto
+                            </strong>
+                        </a>
+                    </li>
+                </ul>
+                <hr />
+                <strong class="card-text fa fa-vcard-o"> Skin </strong>
+                <hr />
+                <ul class="list-inline">
+                    <li class="list-inline-item col-md-2">
+                        <a href="@Url.Action("../PerfilCtTiposCompetencia", "Index")" class="list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Tipos Competencias
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="list-inline-item col-md-2">
+                        <a href="@Url.Action("../PerfilCtCompetencias", "Index")" class="list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Competencias
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="list-inline-item col-md-2">
+                        <a href="@Url.Action("../PerfilCtEscolaridad", "Index")" class="list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Escolaridad
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="list-inline-item col-md-2">
+                        <a href="@Url.Action("../PerfilCtEspecialidad", "Index")" class="list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Especialidad
+                            </strong>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

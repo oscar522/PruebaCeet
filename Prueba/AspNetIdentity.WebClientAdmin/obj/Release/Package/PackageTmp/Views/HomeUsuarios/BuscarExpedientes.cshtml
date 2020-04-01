@@ -1,0 +1,122 @@
+﻿@section Scripts
+             {
+    @Scripts.Render("~/Scripts/ModalControl.js")
+    <script>
+        $(document).ready(function () {
+
+     $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ListDepto","Registro")', // we are calling json method
+                    dataType: 'json',
+                    success: function(states) {
+
+                        $.each(states, function (i, state) {
+                            //$("#IdDepto").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                                $("#IdDepto").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        console.log(ex.responseText);
+                    }
+                });
+
+            $("#IdDepto").change(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ListCiudadId","Registro")', // we are calling json method
+                    dataType: 'json',
+                    data: { IdP: $("#IdDepto").val() },
+                    success: function(states) {
+                        //  alert("okdepto" + $("#ID_CT_DEPTO").val());
+                        $.each(states, function (i, state) {
+                            //  alert(state.Value);
+                            $("#IdMunicipio").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        console.log(ex.responseText);
+                    }
+                });
+                return false;
+            });
+
+            $("form").submit(function (event) {
+                var estado = 0 ;
+                if ($("#IdDepto").val() == 0 ) {
+                    estado = estado + 1;
+                    $("#IdDepto").val(0);
+                }
+                if ($("#key").val() == "_") {
+                    estado = estado + 1;
+                    $("#key").val("N_A")
+                }
+                
+                if (estado == 2) {
+
+
+
+
+                    alert("Debe seleccionar por lo menos un Filtro") ;
+                return false;
+                } else {
+                    return true;
+                }
+
+        });
+        });
+    </script>
+
+}
+<div class="card mb-4 wow fadeIn">
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">Buscar Expediente </h3>
+    </div>
+</div>
+
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                @using (Html.BeginForm("BuscarExpedienteRun", "HomeUsuarios", FormMethod.Post, htmlAttributes: new { id = "car-form", @name = "car-form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12  text-center">
+                                Seleccione por lo menos un filtros de Busqueda
+                                <hr />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="control-label col-md-12">Departamento</label>
+                                <select id="IdDepto" name="IdDepto" class="form-control" placeholder="Departamento">
+                                    <option value="0" selected></option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label col-md-12">Municipio</label>
+                                <select id="IdMunicipio" name="IdMunicipio" class="form-control" placeholder="Municipio">
+                                    <option value="0" selected></option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label col-md-12">Numero Expediente o parte de El </label>
+                                <input type="text" name="key" id="key" value="_" placeholder="B47018900012XXX" class="form-control" />
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-offset-2 col-md-12 text-center">
+                                <input type="submit" id="GuardarBtm" value="Buscar" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

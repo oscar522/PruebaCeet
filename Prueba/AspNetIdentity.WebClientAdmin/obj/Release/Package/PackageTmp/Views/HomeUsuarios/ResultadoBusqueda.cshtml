@@ -1,0 +1,109 @@
+﻿@model IEnumerable<AspNetIdentity.Models.BaldiosPersonaNaturalModel>
+@{
+    ViewBag.Title = "Index";
+}
+@section Scripts {
+
+    @Scripts.Render("~/Scripts/ModalControl.js")
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#table_idd').dataTable({
+             dom: "B<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'<'#colvis'>p>>",
+                buttons: [
+                   { "extend": 'pdf', "text":'Pdf',"className": 'btn-outline-success' },
+                    { "extend": 'excel', "text":'Exc',"className": ' btn-outline-success ' },
+                    { "extend": 'print', "text":'Imp',"className": ' btn-outline-success ' }
+                ],
+            "order": [[6, "asc"]],
+            "language": { "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json" },
+            "pageLength": 10,
+            "paging": true
+        }); 
+    });
+    </script>
+
+}
+<div class="card mb-4 wow fadeIn">
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">Resultados de la busqueda </h3>
+    </div>
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-hover " id="table_idd">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Num. Expediente
+                                </th>
+                                <th>
+                                    Depto
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.IdCiudad)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Vereda)
+                                </th>
+
+                                <th>
+                                    Nom. Solicitante
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Identificacion)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.EstadoCaracterizacion)
+                                </th>
+
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NumeroExpediente)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NombreIdDepto)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NombreIdCiudad)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Vereda)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NombreBeneficiario)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Identificacion)
+                                    </td>
+
+                                    <td>
+                                        @item.EstadoCaracterizacion
+                                    </td>
+
+                                    <td>
+                                        <a href='@Url.Action("../HomeUsuarios/Details", "Details", new { IdTable = item.id })' title='Modificar' style='color: #013ADF;'><i class='fa fa-refresh' aria-hidden='true'></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

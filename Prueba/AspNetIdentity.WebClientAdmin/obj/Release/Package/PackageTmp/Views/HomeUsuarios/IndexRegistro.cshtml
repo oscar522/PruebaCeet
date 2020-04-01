@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-12 ">
+        <div class="card">
+            <div class="card-body">
+                REGISTRO
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<!-- Jumbotron -->
+
+<div class="row">
+    <div class="col-md-1  text-center">
+    </div>
+
+    <div class="col-md-4  text-center">
+        <!-- Card -->
+        <div class="card">
+            <div class="card-body text-center">
+                <h6 class="card-title">Numero de Expedientes Asociados</h6>
+                <h4 class="card-title text-center" id="total"> </h4>
+                <a href="@Url.Action("Index", "Registro")" class="btn btn-primary">Ver Más &raquo;</a>
+            </div>
+        </div>
+        <!-- Card -->
+    </div>
+    <div class="col-md-2  text-center">
+    </div>
+    <div class="col-md-4  text-center">
+        <div class="card">
+            <div class="card-body text-center">
+                <h6 class="card-title">Numero de Expedientes Revisados</h6>
+                <h4 class="card-title text-center" id="totalEdit"></h4>
+                <a href="@Url.Action("IndexRevisados", "Registro")" class="btn btn-primary">Ver Más &raquo;</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1  text-center">
+    </div>
+</div>
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Count")',
+            dataType: 'json',
+            success: function(states) {
+                $("#total").text(states) ;
+            },
+            error: function (ex) {
+                console.log(ex.responseText);
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("CountRevisados")',
+            dataType: 'json',
+            success: function(states) {
+                $("#totalEdit").text(states) ;
+            },
+            error: function (ex) {
+                console.log(ex.responseText);
+            }
+        });
+
+
+
+    });
+
+</script>
+
+

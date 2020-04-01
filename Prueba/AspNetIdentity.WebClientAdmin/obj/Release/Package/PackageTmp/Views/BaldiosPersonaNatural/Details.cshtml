@@ -1,0 +1,161 @@
+﻿@model AspNetIdentity.Models.BaldiosPersonaNaturalModel
+
+@{
+    
+}
+@section Scripts
+             {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/ModalControl.js")
+
+
+
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.NumeroExpediente)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NumeroExpediente)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreIdDepto)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NombreIdDepto)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreIdCiudad)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NombreIdCiudad)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Vereda)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Vereda)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NombrePredio)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NombrePredio)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreBeneficiario)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NombreBeneficiario)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreIdTipoIdentificacion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NombreIdTipoIdentificacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Identificacion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Identificacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreIdGenero)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NombreIdGenero)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreIdTipoIdentificacionConyuge)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NombreIdTipoIdentificacionConyuge)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.IdentificacionConyuge)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IdentificacionConyuge)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreConyuge)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NombreConyuge)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.EstadoInicialMigracion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EstadoInicialMigracion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreIdAspNetUser)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NombreIdAspNetUser)
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.EstadoCaracterizacion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EstadoCaracterizacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.RutaArchivoOriginal)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RutaArchivoOriginal)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+}
+<div class="card mb-4 wow fadeIn">
+
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title"> Parametrizador Curriculum Vitae</h3>
+        <p class="card-text">Curriculum Vitae</p>
+    </div>
+
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">  </div>
+            <div class="card-body">
+                <hr />
+                <strong class="card-text fa fa-map-marker "> Localizacion </strong>
+                <hr />
+                <ul class="list-inline">
+                    <li class="list-inline-item col-md-2">
+                        <a href='@Url.Action("../HvCtCiudad", "Index")' class=" text-xs-center list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Ciudad
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="list-inline-item col-md-2">
+                        <a href='@Url.Action("../HvCtDepto", "Index")' class=" text-xs-center list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Departamento
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="list-inline-item col-md-2 ">
+                        <a href='@Url.Action("../HvCtPais", "Index")' class=" text-xs-center list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Pais
+                            </strong>
+                        </a>
+                    </li>
+                </ul>
+
+                <hr />
+                <strong class="card-text fa fa-vcard-o">Skin </strong>
+                <hr />
+                <ul class="list-inline">
+                    <li class="list-inline-item col-md-2 ">
+                        <a href='@Url.Action("../HvCtActitudes", "Index")' class=" text-xs-center list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Actitudes
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="list-inline-item col-md-2 ">
+                        <a href='@Url.Action("../HvCtConocimientos", "Index")' class=" text-xs-center list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Conocimientos
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="list-inline-item col-md-2 ">
+                        <a href='@Url.Action("../HvCtDisiplina", "Index")' class=" text-xs-center list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Diciplina
+                            </strong>
+                        </a>
+                    </li>
+                </ul>
+
+                <hr />
+                <strong class="card-text fa fa-archive"> Generales</strong>
+                <hr />
+                <ul class="list-inline">
+                    <li class="list-inline-item col-md-2 ">
+                        <a href='@Url.Action("../HvCtEstadoCivil", "Index")' class=" text-xs-center list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Estado Civil
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="list-inline-item col-md-2 ">
+                        <a href='@Url.Action("../HvCtTipoIdentificacion", "Index")' class=" text-xs-center list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Tipo Identificacion
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="list-inline-item col-md-2 ">
+                        <a href='@Url.Action("../HvCtGenero", "Index")' class=" text-xs-center list-group-item list-group-item-action waves-effect dropdown-item" target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Genero
+                            </strong>
+                        </a>
+                    </li>
+                </ul>
+
+                <hr />
+                <strong class="card-text fa fa-paperclip"> Ocupacion </strong>
+                <hr />
+                <ul class="list-inline">
+                    <li class="list-inline-item col-md-2  ">
+                        <a href='@Url.Action("../HvCtCargo", "Index")' class=" text-xs-center list-group-item list-group-item-action waves-effect dropdown-item  " target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Cargo
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="list-inline-item col-md-2 ">
+                        <a href='@Url.Action("../HvCtEmpresa", "Index")' class=" text-xs-center list-group-item list-group-item-action waves-effect dropdown-item   " target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Empresas
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="list-inline-item col-md-2 ">
+                        <a href='@Url.Action("../HvCtInstituciones", "Index")' class=" text-xs-center list-group-item list-group-item-action waves-effect dropdown-item  " target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Instituciones
+                            </strong>
+                        </a>
+                    </li>
+                    <li class="list-inline-item col-md-2 ">
+                        <a href='@Url.Action("../HvCtTitulos", "Index")' class=" text-xs-center list-group-item list-group-item-action waves-effect dropdown-item " target="_blank">
+                            <strong class="	fa fa-hand-o-right">
+                                Titulos
+                            </strong>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>

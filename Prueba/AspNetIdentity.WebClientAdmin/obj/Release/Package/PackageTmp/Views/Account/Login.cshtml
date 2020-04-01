@@ -1,0 +1,40 @@
+﻿@using AspNetIdentity.WebClientAdmin.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+@*<div class="container-login100" style="background-image: url('../../Content/login/images/bg-01.jpg');">*@
+<div class="container-login100" >
+    @*<div class="container-login100" style="background-image: url('http://sit.agenciadetierras.gov.co/web/Content/Images/bg-login-lg.jpg');">*@
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login100-form validate-form", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <span class="login100-form-title p-b-37">
+                    Sign In
+                </span>
+
+                <div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "input100", name = "username", placeholder = "username or email" })
+                    <span class="focus-input100"></span>
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-25" data-validate="Enter password">
+                    @Html.PasswordFor(m => m.Password, new { @class = "input100", name = "pass", placeholder = "password" })
+                    <span class="focus-input100"></span>
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <input type="submit" value="Sign In" class="login100-form-btn" />
+                </div>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            }
+        </div>
+    </div>
+
+    <div id="dropDownSelect1"></div>

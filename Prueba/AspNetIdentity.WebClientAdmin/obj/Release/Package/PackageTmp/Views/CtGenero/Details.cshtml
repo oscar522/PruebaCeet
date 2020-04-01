@@ -1,0 +1,19 @@
+﻿@model AspNetIdentity.Models.HvCtGeneroModel
+
+@{
+    ViewBag.Title = "Detalle Genero" + @Html.DisplayFor(modelItem => Model.NOMBRE);
+}
+
+
+                <dl class="dl-horizontal">
+                    
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NOMBRE)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NOMBRE)
+                    </dd>
+
+                </dl>
+     

@@ -1,0 +1,340 @@
+﻿@model IEnumerable<AspNetIdentity.Models.ResumenTipificacionVistaModel>
+
+<div class="card mb-4 wow fadeIn">
+
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">MUNICIPIOS FOCALIZADOS </h3>
+        <div id="info"></div>
+       
+    </div>
+
+</div>
+
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/ModalControl.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+
+            $('#table_id').dataTable({
+                "order": [[3, "desc"]],
+                "language": { "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json" },
+                "paging": false,
+                "searching": false,
+                dom: "B<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'<'#colvis'>p>>",
+                buttons: [
+                    { "extend": 'pdf', "text":'Pdf',"className": 'btn-outline-success' },
+                    { "extend": 'excel', "text":'Exc',"className": ' btn-outline-success ' },
+                    { "extend": 'print', "text":'Imp',"className": ' btn-outline-success ' }
+                ],
+                "columnDefs": [
+                {
+                    "targets": [ 3 ],
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    "targets": [ 4 ],
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    "targets": [ 5 ],
+                    "visible": false,
+                    "searchable": false
+                }],
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+                    var monTotal = api
+                        .column(4 ,  { page: 'current'})
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    var tueTotal = api
+                        .column(5  ,  { page: 'current'})
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    $( api.column( 0 ).footer() ).html('Total');
+                    $( api.column( 1 ).footer() ).html(monTotal);
+                    $( api.column( 2 ).footer() ).html(tueTotal);
+
+                }
+            });  //Initialize the datatable
+
+            var oTable =  $('#table_Registro').dataTable({
+                "language": { "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json" },
+                "paging": false,
+                "searching":false,
+                "columnDefs": [
+                {
+                    "targets": [ 3 ],
+                    "visible": false,
+                    "searchable": false
+                }, {
+                    "targets": [4 ],
+                    "visible": false,
+                    "searchable": false
+                }, {
+                    "targets": [ 5 ],
+                    "visible": false,
+                    "searchable": false
+                    }],
+                 dom: "B<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'<'#colvis'>p>>",
+                buttons: [
+                    { "extend": 'pdf', "text":'Pdf',"className": 'btn-outline-success' },
+                    { "extend": 'excel', "text":'Exc',"className": ' btn-outline-success ' },
+                    { "extend": 'print', "text":'Imp',"className": ' btn-outline-success ' }
+                ],
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+
+                    // computing column Total of the complete result
+                    var monTotal = api
+                        .column(4 ,  { page: 'current'})
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    var tueTotal = api
+                        .column(5 ,  { page: 'current'})
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    $( api.column( 0 ).footer() ).html('Total');
+                    $( api.column( 1 ).footer() ).html(monTotal);
+                    $( api.column( 2 ).footer() ).html(tueTotal);
+
+                }
+             });  //Initialize the datatable
+
+            function tabla() {
+                var IdDepto = getParameterByName('IdDepto');
+                var IdCiudad = getParameterByName('IdCiudad');
+                $('#centralModalLGInfoDemoSlim').modal({backdrop: 'static', keyboard: false})
+                $("#centralModalLGInfoDemoSlim").modal();
+                $('#HeaderSlim').html("")
+                $('#BodySlim').html("Cargando");
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ResumenRegistro")',
+                    dataType: 'json',
+                    data: { IdDepto: IdDepto, IdCiudad: IdCiudad  },
+                    success: function (s) {
+                        oTable.fnClearTable();
+                        var Munic = "";
+                        var Depto = "";
+                        $.each(s, function (i, obj) {
+                            var Partes = obj.Grupo.split("-");
+                            var Registro = '';
+                            var Tipo = Partes[0];
+                            Munic = Partes[1];
+                            Depto = Partes[2];
+                            if (Tipo == "True") {
+                                Registro = "Con Registro";
+                            } else if (Tipo == "False") {
+                                Registro = "Sin Registro";
+                            } else {
+                                Registro = "Sin Gestion";
+                            }
+
+                            var url = '@Url.Action("../HomeAdministrator/ResumenListaSinPlano", "ResumenRegistroLista", new { IdDepto = "IdDeptoIn", IdCiudad = "IdCiudadIn", Grupo = "GrupoIn" })';
+                            url = url.replace("IdDeptoIn", obj.IdDepto)
+                                .replace("IdCiudadIn", obj.IdMunicipio)
+                                .replace("GrupoIn", Tipo);
+
+                            var urlPlano = '@Url.Action("../HomeAdministrator/ResumenListaConPlano", "ResumenRegistroLista", new { IdDepto = "IdDeptoIn", IdCiudad = "IdCiudadIn", Grupo = "GrupoIn" })';
+                            urlPlano = urlPlano.replace("IdDeptoIn", obj.IdDepto)
+                                .replace("IdCiudadIn", obj.IdMunicipio)
+                                .replace("GrupoIn", Tipo);
+
+                            oTable.fnAddData([
+                                Registro,
+                                '<a target="_blank" href='+url+'  style="color: #013ADF;"><i class="fa fa-search" aria-hidden="true"></i>'+ obj.Total +'</a>',
+                                '<a target="_blank" href='+urlPlano+'  style="color: #013ADF;"><i class="fa fa-search" aria-hidden="true"></i>'+ obj.Plano +'</a>',
+                                //obj.Plano,
+                                obj.Orden,
+                                obj.Total,
+                                obj.Plano
+                            ]);
+                            debugger;
+
+                        });
+                        debugger;
+                       
+                        $("#centralModalLGInfoDemoSlim").modal('hide');
+                    },
+                    error: function(e){
+                         oTable.fnClearTable();
+                    }
+                });
+            };
+
+        tabla();
+
+
+        });
+    </script>
+
+}
+<div class="row">
+    <div class="col-md-6">
+        <!-- Card -->
+        <div class="card">
+            <div class="card-header"> <h4> Tipificación </h4></div>
+            <div class="card-body">
+                <div class="form-horizontal">
+                    <div class="row  justify-content-center">
+                        <div class="form-group col-md-12">
+                            <div class="table-responsive text-nowrap">
+                                <table id="table_id" class="table table-hover center" cellspacing="0" width="100%">
+                                    <thead class="green white-text title">
+                                        <tr>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Grupo)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Total)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Plano)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Orden)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Total)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Plano)
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Grupo)
+                                            </td>
+                                            <td>
+                                                <a target="_blank" href='@Url.Action("../HomeAdministrator/ResumenLista", "ResumenLista", new { IdDepto = item.IdDepto, IdCiudad = item.IdMunicipio, Grupo = item.Grupo  })' style='color: #013ADF;'><i class='fa fa-search' aria-hidden='true'></i>  @Html.DisplayFor(modelItem => item.Total)</a>
+                                            </td>
+                                            <td>
+                                                <a target="_blank" href='@Url.Action("../HomeAdministrator/ResumenListaPlano", "ResumenListaPlano", new { IdDepto = item.IdDepto, IdCiudad = item.IdMunicipio, Grupo = item.Grupo  })' style='color: #013ADF;'><i class='fa fa-search' aria-hidden='true'></i>  @Html.DisplayFor(modelItem => item.Plano)</a>
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Orden)
+                                                <script type="text/javascript">
+                                                    document.getElementById('info').innerHTML='<p class="card-text"> Depto : @item.Depto  <br /> Municipio : @item.Municipio </p>';
+                                                </script>
+                                            </td>
+                                            <td>
+                                                 @Html.DisplayFor(modelItem => item.Total)
+                                            </td>
+                                            <td>
+                                                 @Html.DisplayFor(modelItem => item.Plano)
+                                            </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot class="green white-text title">
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <!-- Card -->
+        <div class="card">
+            <div class="card-header"> <h4> Registro </h4></div>
+            <div class="card-body">
+                <div class="form-horizontal">
+                    <div class="row  justify-content-center">
+                        <div class="form-group col-md-12">
+                            <div class="table-responsive text-nowrap">
+                                <table id="table_Registro" class="table table-hover center" cellspacing="0" width="100%">
+                                    <thead class="green white-text title">
+                                        <tr>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Grupo)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Total)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Plano)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Orden)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Total)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Plano)
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                    <tfoot class="green white-text title">
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

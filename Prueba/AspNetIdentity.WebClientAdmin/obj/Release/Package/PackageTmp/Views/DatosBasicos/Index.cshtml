@@ -1,0 +1,135 @@
+﻿@model IEnumerable<AspNetIdentity.Models.UserDataModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+@section Scripts
+             {
+    @Scripts.Render("~/bundles/jqueryval")   @Scripts.Render("~/Scripts/ModalControl.js")
+    <script>
+        function ImagenDecode(IMAGE_NAME) {
+            var decodedData = window.atob(IMAGE_NAME);
+            //$("#DivImageName").html("<img class='text - center img - responsive center - block' src='" + decodedData + "' /><hr />");
+            return decodedData;
+        }
+       
+
+    </script>
+}
+    <style>
+        .progress-bar-vertical {
+            width: 50%;
+            min-height: 60px;
+            display: flex;
+            align-items: flex-end;
+            margin-right: 20px;
+            float: left;
+        }
+
+        .progress-bar-vertical .progress-bar {
+            width: 100%;
+            height: 0;
+            -webkit-transition: height 0.6s ease;
+            -o-transition: height 0.6s ease;
+            transition: height 0.6s ease;
+        }
+    </style>
+<div class="card mb-4 wow fadeIn">
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">Datos Basicos</h3>
+        <p class="card-text">Hoja de Vida / Datos Basicos</p>
+    </div>
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                @*<a href="#" onclick="Ejecutar ('','HvDatosBasicos','Crear'); return false;">Crear Datos Personales</a>*@
+                @Html.ActionLink("Crear", "Crear")
+            </div>
+            <div class="card-body">
+                <table id="table" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                NOMBRE
+                            </th>
+                            <th>
+                                PRIMER APELLIDOS
+                            </th>
+                            <th>
+                                SEGUNDO APELLIDOS
+                            </th>
+                            <th>
+                                E-mail
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Active)
+                            </th>
+                            <th class="th-sm">@Html.DisplayNameFor(model => model.UsuarioCreoNombre)</th>
+                            <th class="th-sm">@Html.DisplayNameFor(model => model.FechaCreo)</th>
+                            <th width="5%">
+                                Completado
+                            </th>
+                            <th width="8%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FirstName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LastName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Active)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UsuarioCreoNombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FechaCreo)
+                            </td>
+
+                            <td class="center-block text-center">
+                                <div class="progress progress-bar-vertical center-block text-center">
+                                    <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="height: @Html.DisplayFor(modelItem => item.Completed)%;">
+                                        @Html.DisplayFor(modelItem => item.Completed)%
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                @if (item.Existe == 1)
+                                {
+                                    <a href='@Url.Action("../HvDatosBasicos/EditPersona", "Edit", new { Id = item.Id })' title='Modificar' style='color: #013ADF;'><i class='fa fa-refresh' aria-hidden='true'></i></a>
+                                    <a href='@Url.Action("../HvDatosBasicos/DetailPersona", "Detail", new { Id = item.Id })' title='Detalle' style='color: #013ADF;'>    <i class='fa fa-search' aria-hidden='true'></i> </a>
+                                    <a href='@Url.Action("../HvDatosBasicos/DeletePersona", "Delete", new { Id = item.Id })' title='Borra' style='color: #013ADF;'>    <i class='fa fa-trash' aria-hidden='true'></i>  </a>
+                                }
+                                else
+                                {
+                                    @*<a href='@Html.Action("../HvDatosBasicos/", "Crear")' title='Modificar' style='color: #013ADF;'><i class='fa fa-refresh' aria-hidden='true'></i></a>*@
+                                    <a href='@Url.Action("../HvDatosBasicos/Crear", "Crear", new { Id = item.Id })' title='Modificar' style='color: #013ADF;'><i class='fa fa-refresh' aria-hidden='true'></i></a>
+
+                                }
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

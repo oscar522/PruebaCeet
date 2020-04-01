@@ -1,0 +1,88 @@
+﻿@model AspNetIdentity.Models.ExpedienteDocumentosModel
+
+<style>
+    .pdfobject-container {
+        height: 53rem;
+        border: 1rem solid rgba(0,0,0,.1);
+        background-color: #ffffff;
+    }
+</style>
+
+<div class="card mb-4 wow fadeIn">
+
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title"> </h3>
+        <p class="card-text">Expedientes : @Model.NombreExpediente <br /> Archivo : @Model.Archivo <br /> Tipo de Documento : @Model.NombreRetencionDocumental <br /> Pagina Inicial : @Model.PagInicial <br /> Pagina Final : @Model.PagFinal</p>
+    </div>
+
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"><div id="ListPdf"> </div></div>
+            <div class="card-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <div class="col-md-12">
+                                <div id="PdfViewer"></div>
+                                <input type="hidden" id="ArchivoActual" name="ArchivoActual" />
+                                <input type="hidden" id="InputUriPdf" name="InputUriPdf" />
+                                @section Scripts
+                                {
+
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.js"></script>
+                                    <script type="text/javascript">
+
+                                        $(document).ready(function () {
+                                         // obtiene la url de los pdf
+                                        $.getJSON( '@Url.Content("~/Content/ConfigPdfUri.json")', function(data){
+                                            var UriLo = data.result[0].Uri;
+                                            var UriPdf ="";
+                                            var UriRe = data.result[0].UriRe;
+
+                                            var pathname = window.location.href;
+
+                                            if (pathname.indexOf(UriRe) > -1) {
+                                                UriPdf = UriRe;
+                                            } else {
+                                                UriPdf = UriLo;
+                                            }
+
+                                            var url = '@Model.Archivo';
+                                            var pageurlIni = '@Model.PagInicial';
+                                            var pageurlFin = '@Model.PagFinal';
+                                            var options = {
+                                                page: pageurlIni,
+                                                pdfOpenParams: {
+                                                    navpanes: 1,
+                                                    view: "FitH",
+                                                    pagemode: "thumbs",
+                                                    toolbar: '1',
+                                                    statusbar: '1',
+                                                    messages: '1', 
+                                                }
+                                            };
+                                        // pagelength().
+                                        $("#pagelength").text(pageurlFin);
+                                        PDFObject.embed("http://"+UriPdf+"/Content/Pdfs/" + url, "#PdfViewer", options);
+
+                                        });
+
+                                         console.log("ready!");
+                                     });
+                                    </script>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+
+
+    </div>
+</div>
+

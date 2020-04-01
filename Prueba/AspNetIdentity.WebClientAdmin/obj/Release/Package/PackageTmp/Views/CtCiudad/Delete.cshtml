@@ -1,0 +1,45 @@
+﻿@model AspNetIdentity.Models.HvCtCiudadModel
+
+@{
+    ViewBag.Title = "Borrar Ciudad" + @Html.DisplayFor(modelItem => Model.NOMBRE);
+}
+
+
+
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NOMBRE_PAIS)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NOMBRE_PAIS)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NOMBRE_DEPTO)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NOMBRE_DEPTO)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NOMBRE)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NOMBRE)
+                    </dd>
+
+                </dl>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Borrar" class="btn btn-primary" /> |
+                       
+                    </div>
+                }
+     

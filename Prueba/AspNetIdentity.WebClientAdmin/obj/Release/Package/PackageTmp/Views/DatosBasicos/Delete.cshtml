@@ -1,0 +1,101 @@
+﻿@model AspNetIdentity.Models.HvDatosBasicosModel
+
+
+@{
+    ViewBag.Title = "Datos Basicos " + @Html.DisplayFor(modelItem => Model.IDENTIFICACION);
+}
+
+<div class="card mb-4 wow fadeIn">
+
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title"> Datos Basicos   @Html.DisplayFor(model => model.NOMBRES) @Html.DisplayFor(model => model.APELLIDOS)</h3>
+        <p class="card-text">Hoja de Vida / Datos Basicos </p>
+    </div>
+
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">  </div>
+            <div class="card-body">
+
+                <hr />
+                <dl class="dl-horizontal">
+
+                    <dt>
+                        IDENTIFICACION
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NOMBRE_TIPO_IDENTIFICACION) - @Html.DisplayFor(model => model.IDENTIFICACION)
+                    </dd>
+
+                    <dt>
+                        NOMBRE Y APELIIDO
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NOMBRES) @Html.DisplayFor(model => model.APELLIDOS)
+                    </dd>
+                    <dt>
+                        LUGAR DE NACIMENTO
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NOMBRE_PAIS) - @Html.DisplayFor(model => model.NOMBRE_DEPTO) - @Html.DisplayFor(model => model.NOMBRE_CIUDAD)
+                    </dd>
+
+                    <dt>
+                        ESTADO CIVIL
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NOMBRE_ESTADO_CIVIL)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.F_NACIMIENTO)
+                    </dt>
+
+                    <dd>
+
+                        @Convert.ToDateTime(Model.F_NACIMIENTO).ToString("dd/MM/yyyy")
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.GENERO)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.GENERO)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DESCRIPCION)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.DESCRIPCION)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NOMBRE_PERFIL)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NOMBRE_PERFIL)
+                    </dd>
+                </dl>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Delete" class="btn btn-primary" /> |
+                      
+                    </div>
+                }
+            </div>
+        </div>
+    </div>

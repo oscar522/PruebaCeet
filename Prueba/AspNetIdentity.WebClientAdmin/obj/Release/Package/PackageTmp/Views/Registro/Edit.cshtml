@@ -1,0 +1,407 @@
+﻿@model AspNetIdentity.Models.RegistroModel
+@section Scripts
+             {
+    @Scripts.Render("~/Scripts/ModalControl.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var UriPdf = "";
+            $.getJSON( '@Url.Content("~/Content/ConfigPdfUri.json")', function(data){
+                var UriLo = data.result[0].Uri;
+                var UriRe = data.result[0].UriRe;
+
+                var pathname = window.location.href;
+
+                if (pathname.indexOf(UriRe) > -1) {
+                    UriPdf = UriRe;
+                } else {
+                    UriPdf = UriLo;
+                }
+
+            });
+
+            $("#Estado option").each(function () {
+               // alert($(this).val() + "--" + '@Model.Estado');
+                var estadoSelect = "";
+
+                if ($(this).val() == 'true') {
+                    estadoSelect = 'True';
+                } else if ($(this).val() == 'false') {
+                    estadoSelect = 'False';
+                }
+
+                if (estadoSelect =='@Model.Estado' ){
+                    $(this).attr("selected", true);
+                    debugger;
+                }
+             });
+
+            var VeriFVerificacion = '@Model.FVerificacion'+1;
+            if (VeriFVerificacion == 1) {
+                var d = new Date();
+                var fechaActual = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" +  d.getDate() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+                $("#FVerificacion").val(fechaActual);
+            } else {
+                $("#FVerificacion").val('@Model.FVerificacion');
+            }
+
+            var oTable = $('#table_id').dataTable({
+                 dom: "B<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'<'#colvis'>p>>",
+                buttons: [
+                   { "extend": 'pdf', "text":'Pdf',"className": 'btn-outline-success' },
+                    { "extend": 'excel', "text":'Exc',"className": ' btn-outline-success ' },
+                    { "extend": 'print', "text":'Imp',"className": ' btn-outline-success ' }
+                ],
+                "order": [[1]],
+                "language": { "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json" },
+                "pageLength": 10,
+                "paging": false,
+                "searching": false
+            });  //Initialize the datatable
+
+            function tabla(){
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ListExpedienteDocumentos")',
+                dataType: 'json',
+                data: { Id: @Model.IdExpediente },
+                success: function (s) {
+                    oTable.fnClearTable();
+                    $.each(s, function (i, obj) {
+                        oTable.fnAddData([
+                            obj.NombreRetencionDocumental,
+                           "<a href='../ExpedienteDocumentos/ViewerPdf/" + obj.Id + "' title='Modificar' style='color: #013ADF;' target = '_blank'> <i class='fa fa-eye'>  </i></a>  " ,
+                        ]);
+                    });
+                },
+                error: function(e){
+                     oTable.fnClearTable();
+                }
+            });
+            };
+
+            tabla();
+
+            $('input[aria-controls="table_id"]').addClass("form-control");
+
+            $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ExpedienteInfo")', // we are calling json method
+                    dataType: 'json',
+                    data: { Id: @Model.IdExpediente },
+                success: function (states) {
+                        var Data = " <p class='card-text'>" +
+                            "<span style='color: #013ADF;'> Nombre Depto : </span>  " + states.NombreIdDepto + " | " +
+                            "<span style='color: #013ADF;'> Nombre Municipio : </span>" + states.NombreIdCiudad +
+                            "<br> " +
+                            "<span style='color: #013ADF;'> Nombre Predio : </span> " + states.NombrePredio  + " | " +
+                            "<span style='color: #013ADF;'> Nombre Beneficiario : </span>" + states.NombreBeneficiario +
+                            "<br> " +
+                            "<span style='color: #013ADF;'> Tipo Identificacion : </span>" + states.NombreIdTipoIdentificacion + " | " +
+                            "<span style='color: #013ADF;'> Identificacion :  </span>" + states.Identificacion +
+                            "</p> ";
+                        debugger;
+                        $("#Info_Expediente").html(Data);
+                        var Expediente = 'Expediente : <a target="_blank" href="http://'+UriPdf+'/Content/Pdfs/'+states.RutaArchivoOriginal+'#navpanes=1&view=FitH&pagemode=thumbs&page=1">@Model.NumeroExpediente</a>';
+                        $("#LinkExpdPdf").html(Expediente);
+
+                    },
+                    error: function (ex) {
+                        console.log(ex.responseText);
+                    }
+                });
+
+            $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ListDepto")', // we are calling json method
+                    dataType: 'json',
+                    success: function(states) {
+
+                        $.each(states, function (i, state) {
+                            //$("#IdDepto").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                            if ('@Model.IdDepto' == state.Value) {
+                                $("#IdDepto").append('<option value="' + state.Value + '" selected>' + state.Text + '</option>');
+                            } else {
+                                $("#IdDepto").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                            }
+                        });
+                    },
+                    error: function (ex) {
+                        console.log(ex.responseText);
+                    }
+                });
+
+            $("#IdDepto").change(function () {
+                $("#IdMunicipio").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ListCiudadId")', // we are calling json method
+                    dataType: 'json',
+                    data: { IdP: $("#IdDepto").val() },
+                    success: function(states) {
+                        //  alert("okdepto" + $("#ID_CT_DEPTO").val());
+                        $.each(states, function (i, state) {
+                            //  alert(state.Value);
+                            $("#IdMunicipio").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        console.log(ex.responseText);
+                    }
+                });
+                return false;
+            });
+            var DeptoIn = '@Model.IdDepto' + '1';
+
+            if (DeptoIn == '1') {
+                DeptoIn = 0;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ListCiudadId")', // we are calling json method
+                dataType: 'json',
+                data: { IdP: DeptoIn },
+                success: function(states) {
+                    //  alert("okdepto" + $("#ID_CT_DEPTO").val());
+                    $.each(states, function (i, state) {
+                        //  alert(state.Value);
+                        //$("#IdMunicipio").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                        if ('@Model.IdMunicipio' == state.Value) {
+                        $("#IdMunicipio").append('<option value="' + state.Value + '" selected>' + state.Text + '</option>');
+                        } else {
+                            $("#IdMunicipio").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                        }
+                    });
+                },
+                error: function (ex) {
+                    console.log(ex.responseText);
+                }
+            });
+
+            $("#Estado").change(function () {
+                if ($(this).val() == "true") {
+
+                    //$("#FVerificacion").prop('disabled', false);
+                    $("#Matricula").prop('disabled', false);
+                    $("#Fapertura").prop('disabled', false);
+                    $("#TipoDocumento").prop('disabled', false);
+                    $("#NumDocumento").prop('disabled', false);
+                    $("#FDocumento").prop('disabled', false);
+                    $("#IdDepto").prop('disabled', false);
+                    $("#IdMunicipio").prop('disabled', false);
+                    $("#Area").prop('disabled', false);
+                    $("#CcSolicitante").prop('disabled', false);
+                    $("#CcConyugue").prop('disabled', false);
+                    $("#Conyuge").prop('disabled', false);
+
+                } else {
+
+                    //$("#FVerificacion").prop('disabled', true);
+                    $("#Matricula").prop('disabled', true);
+                    $("#Fapertura").prop('disabled', true);
+                    $("#TipoDocumento").prop('disabled', true);
+                    $("#NumDocumento").prop('disabled', true);
+                    $("#FDocumento").prop('disabled', true);
+                    $("#IdDepto").prop('disabled', true);
+                    $("#IdMunicipio").prop('disabled', true);
+                    $("#Area").prop('disabled', true);
+                    $("#CcSolicitante").prop('disabled', true);
+                    $("#CcConyugue").prop('disabled', true);
+                    $("#Conyuge").prop('disabled', true);
+
+                }
+
+            });
+
+            $("#car-form").submit(function (event) {
+
+                // cuando el estado = con registro se activa todo y solo requerido matricula y fecha de apertura
+
+                var state = 0;
+                debugger;
+
+                if ($("#Estado").val() == "") { state = 1; $('span[data-valmsg-for="Estado"]').text("* Requerido"); }
+
+                if ($("#Estado").val() == "true") {
+                    if ($("#Matricula").val() == "") { state = 1; $('span[data-valmsg-for="Matricula"]').text("* Requerido"); }
+                    if ($("#Fapertura").val() == "") { state = 1; $('span[data-valmsg-for="Fapertura"]').text("* Requerido"); }
+                }
+
+                if (state != 0) {
+                    return false;
+                }
+            });
+        });
+    </script>
+}
+<div class="card mb-4 wow fadeIn">
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">Registro </h3>
+        <div id="Info_Expediente" class="card-text">
+        </div>
+    </div>
+</div>
+
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-text">
+                    <div id="LinkExpdPdf">
+
+                    </div>
+                </p>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("EditJson", "Registro", FormMethod.Post, htmlAttributes: new { id = "car-form", @name = "car-form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+
+                    @Html.EditorFor(model => model.IdExpediente, new { htmlAttributes = new { @class = "form-control", @Style = "display:none", @Value = @Model.IdExpediente } })
+                    @Html.EditorFor(model => model.IdAspNetUser, new { htmlAttributes = new { @class = "form-control", @Style = "display:none", @Value = @Model.IdAspNetUser } })
+                    @Html.EditorFor(model => model.UsuarioModifica, new { htmlAttributes = new { @class = "form-control", @Style = "display:none", @Value = @Model.IdAspNetUser } })
+                    @Html.EditorFor(model => model.UsuarioActualiza, new { htmlAttributes = new { @class = "form-control", @Style = "display:none", @Value = @Model.IdAspNetUser } })
+                    @Html.EditorFor(model => model.NumeroExpediente, new { htmlAttributes = new { @class = "form-control", @Style = "display:none", @Value = @Model.NumeroExpediente } })
+                    @Html.EditorFor(model => model.NombreIdMunicipio, new { htmlAttributes = new { @class = "form-control", @Style = "display:none", @Value = @Model.NombreIdMunicipio } })
+                    @Html.EditorFor(model => model.NombreIdDepto, new { htmlAttributes = new { @class = "form-control", @Style = "display:none", @Value = @Model.NombreIdDepto } })
+                    @Html.EditorFor(model => model.NombreUsuario, new { htmlAttributes = new { @class = "form-control", @Style = "display:none", @Value = "N_A" } })
+                    @Html.EditorFor(model => model.RolUsuario, new { htmlAttributes = new { @class = "form-control", @Style = "display:none",@Value = "N_A" } })
+                    @Html.EditorFor(model => model.EstadoRegistro, new { htmlAttributes = new { @class = "form-control", @Value = "true", @Style = "display:none" } })
+                    @Html.EditorFor(model => model.FVerificacion, new { htmlAttributes = new { @class = "form-control", @Style = "display:none" } })
+
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-12" })
+                                        <select name="Estado" id="Estado" class="form-control">
+                                            <option value="">Seleccione</option>
+                                            <option value="true">Con Registro</option>
+                                            <option value="false">Sin Registro</option>
+                                        </select>
+                                        @*@Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control" } })*@
+                                        @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger", disabled = "true" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.LabelFor(model => model.Matricula, htmlAttributes: new { @class = "control-label col-md-12" })
+                                        @Html.EditorFor(model => model.Matricula, new { htmlAttributes = new { @class = "form-control", disabled = "true" } })
+                                        @Html.ValidationMessageFor(model => model.Matricula, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.LabelFor(model => model.Fapertura, htmlAttributes: new { @class = "control-label col-md-12" })
+                                        @Html.EditorFor(model => model.Fapertura, new { htmlAttributes = new { @class = "form-control", type = "date", disabled = "true" } })
+                                        @Html.ValidationMessageFor(model => model.Fapertura, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.LabelFor(model => model.TipoDocumento, htmlAttributes: new { @class = "control-label col-md-12" })
+                                        @Html.EditorFor(model => model.TipoDocumento, new { htmlAttributes = new { @class = "form-control", disabled = "true" } })
+                                        @Html.ValidationMessageFor(model => model.TipoDocumento, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.LabelFor(model => model.NumDocumento, htmlAttributes: new { @class = "control-label col-md-12" })
+                                        @Html.EditorFor(model => model.NumDocumento, new { htmlAttributes = new { @class = "form-control", disabled = "true" } })
+                                        @Html.ValidationMessageFor(model => model.NumDocumento, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.LabelFor(model => model.FDocumento, htmlAttributes: new { @class = "control-label col-md-12" })
+                                        @Html.EditorFor(model => model.FDocumento, new { htmlAttributes = new { @class = "form-control", type = "date", disabled = "true" } })
+                                        @Html.ValidationMessageFor(model => model.FDocumento, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.LabelFor(model => model.IdDepto, htmlAttributes: new { @class = "control-label col-md-12" })
+                                        @Html.DropDownList("IdDepto", new SelectList(string.Empty, "Value", "Text"), "Seleccione", new { @class = "form-control", disabled = "true" })
+                                        @Html.ValidationMessageFor(model => model.IdDepto, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.LabelFor(model => model.IdMunicipio, htmlAttributes: new { @class = "control-label col-md-12" })
+                                        @Html.DropDownList("IdMunicipio", new SelectList(string.Empty, "Value", "Text"), "Seleccione", new { @class = "form-control", disabled = "true" })
+                                        @Html.ValidationMessageFor(model => model.IdMunicipio, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.LabelFor(model => model.Area, htmlAttributes: new { @class = "control-label col-md-12" })
+                                        @Html.EditorFor(model => model.Area, new { htmlAttributes = new { @class = "form-control", disabled = "true" } })
+                                        @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.LabelFor(model => model.CcSolicitante, htmlAttributes: new { @class = "control-label col-md-12" })
+                                        @Html.EditorFor(model => model.CcSolicitante, new { htmlAttributes = new { @class = "form-control", disabled = "true" } })
+                                        @Html.ValidationMessageFor(model => model.CcSolicitante, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.LabelFor(model => model.CcConyugue, htmlAttributes: new { @class = "control-label col-md-12" })
+                                        @Html.EditorFor(model => model.CcConyugue, new { htmlAttributes = new { @class = "form-control", disabled = "true" } })
+                                        @Html.ValidationMessageFor(model => model.CcConyugue, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.LabelFor(model => model.Conyuge, htmlAttributes: new { @class = "control-label col-md-12" })
+                                        @Html.EditorFor(model => model.Conyuge, new { htmlAttributes = new { @class = "form-control", disabled = "true" } })
+                                        @Html.ValidationMessageFor(model => model.Conyuge, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        <h5>Documentos Tipificados </h5> <hr />
+                                        <div id="Info_ExpedienteDocumentos">
+                                            <table id="table_id" class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th> Nombre Documental </th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-offset-2 col-md-12 text-center">
+                                <input type="submit" id="GuardarBtm" value="Guardar" class="btn btn-default" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+﻿@model IEnumerable<AspNetIdentity.WebClientAdmin.Models.ReportsModel>
+
+<!-- Heading -->
+<div class="card mb-4 wow fadeIn">
+
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h4 class="mb-2 mb-sm-0 pt-1">
+            <span>Reportes</span>
+        </h4>
+    </div>
+
+</div>
+<!-- Heading -->
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive text-nowrap">
+                    <table id="dtBasicExample" class="table table-hover" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th class="th-sm">@Html.DisplayNameFor(model => model.Test)</th>
+                                <th class="th-sm">@Html.DisplayNameFor(model => model.LastUpdate)</th>
+                                <th class="th-sm">@Html.DisplayNameFor(model => model.Name)</th>
+                                <th class="th-sm">@Html.DisplayNameFor(model => model.FirstName)</th>
+                                <th class="th-sm">@Html.DisplayNameFor(model => model.LastName)</th>
+                                <th class="th-sm">@Html.DisplayNameFor(model => model.StatusTest)</th>
+                                <th class="th-sm">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Test)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.LastUpdate, templateName: "{0:dd-MMM-yyyy}")</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.StatusTest)</td>
+                                    <td>
+                                        @switch (item.Id_StatusTest)
+                                        {
+                                            case 1:
+                                                <a class="btn btn-light btn-sm disabled" href="#"><i class="fa fa-download"></i></a>
+                                                break;
+                                            case 2:
+                                                <a class="btn btn-light btn-sm disabled" href="#"><i class="fa fa-download"></i></a>
+                                                break;
+                                            case 3:
+                                                <a class="btn btn-success btn-sm" href="@Url.Action("GetReport", "Reports", new { id = item.Id_UserTest })"><i class="fa fa-download"></i></a>
+                                                break;
+                                        }
+                                        
+                                        @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                        @Html.<a href="#">ctionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                        @Html.Ac</a>tionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+<script>
+        $(document).ready(function () {
+            $('#dtBasicExample').DataTable({
+                 dom: "B<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'<'#colvis'>p>>",
+                buttons: [
+                    'print',    
+                    'excel',
+                ],
+                "order": [[1, "desc"]],
+                "language": { "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json" },
+                "pageLength": 25
+            });
+            $('.dataTables_length').addClass('bs-select');
+        });
+</script>
+}

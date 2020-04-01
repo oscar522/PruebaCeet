@@ -1,0 +1,102 @@
+﻿@model IEnumerable<AspNetIdentity.Models.AccountTableModel>
+
+@section Scripts              {
+    @Scripts.Render("~/Scripts/ModalControl.js")
+}
+
+<div class="card mb-4 wow fadeIn">
+
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">Accounts </h3>
+    </div>
+
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <a href="#" onclick="Ejecutar ('','AccountTAble','Crear'); return false;">Crear Account</a>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NombreCountry)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Id_Code)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ImageName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Active)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NombreCountry)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id_Code)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    <script>
+                                    var img = window.atob('@item.ImageName');
+                                    document.write('<img src="'+img+'" width="50%"/>');
+                                    </script>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Active)
+                                </td>
+                                <td>
+                                    <a href="#" onclick="Ejecutar ('@item.Id_Account','AccountTable','Edit'); return false;" title="Modificar" style="color: #013ADF;"><i class="fa fa-refresh" aria-hidden="true"></i></a> |
+                                    <a href="#" onclick="Ejecutar ('@item.Id_Account','AccountTable','Detail'); return false;" title="Detalle" style="color: #013ADF;"><i class="fa fa-search" aria-hidden="true"></i> </a> |
+                                    <a href="#" onclick="Ejecutar ('@item.Id_Account','AccountTable','Delete'); return false;" title="Borrar" style="color: #013ADF;"><i class="fa fa-trash" aria-hidden="true"></i></a> |
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="centralModalLGInfoDemo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading lead">Modal Info</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <a type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal" onclick="location.reload()">Cerrar</a>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- Modal: modalCart -->

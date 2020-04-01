@@ -162,44 +162,34 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\AliadosController.cs" />
-    <Compile Include="Controllers\CompraProductosController.cs" />
-    <Compile Include="Controllers\ProductosController.cs" />
-    <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\CiudadesController.cs" />
+    <Compile Include="Controllers\VendedorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Logic\AliadosLogic.cs" />
-    <Compile Include="Logic\CompraProductosLogic.cs" />
-    <Compile Include="Logic\ProductosLogic.cs" />
-    <Compile Include="Logic\ClientesLogic.cs" />
-    <Compile Include="Models\Aliados.cs">
-      <DependentUpon>ModelFalabella.tt</DependentUpon>
+    <Compile Include="Logic\CiudadesLogic.cs" />
+    <Compile Include="Logic\VendedorLogic.cs" />
+    <Compile Include="Models\Ciudad.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Clientes.cs">
-      <DependentUpon>ModelFalabella.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CompraProducto.cs">
-      <DependentUpon>ModelFalabella.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ModelFalabella.Context.cs">
+    <Compile Include="Models\ModelEntity.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ModelFalabella.Context.tt</DependentUpon>
+      <DependentUpon>ModelEntity.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelFalabella.cs">
+    <Compile Include="Models\ModelEntity.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ModelFalabella.tt</DependentUpon>
+      <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelFalabella.Designer.cs">
+    <Compile Include="Models\ModelEntity.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ModelFalabella.edmx</DependentUpon>
+      <DependentUpon>ModelEntity.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Productos.cs">
-      <DependentUpon>ModelFalabella.tt</DependentUpon>
+    <Compile Include="Models\Vendedor.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -212,15 +202,15 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\ModelFalabella.Context.tt">
+    <Content Include="Models\ModelEntity.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ModelFalabella.Context.cs</LastGenOutput>
-      <DependentUpon>ModelFalabella.edmx</DependentUpon>
+      <DependentUpon>ModelEntity.edmx</DependentUpon>
+      <LastGenOutput>ModelEntity.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\ModelFalabella.tt">
+    <Content Include="Models\ModelEntity.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModelFalabella.edmx</DependentUpon>
-      <LastGenOutput>ModelFalabella.cs</LastGenOutput>
+      <DependentUpon>ModelEntity.edmx</DependentUpon>
+      <LastGenOutput>ModelEntity.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -243,12 +233,12 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <EntityDeploy Include="Models\ModelFalabella.edmx">
+    <EntityDeploy Include="Models\ModelEntity.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ModelFalabella.Designer.cs</LastGenOutput>
+      <LastGenOutput>ModelEntity.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\ModelFalabella.edmx.diagram">
-      <DependentUpon>ModelFalabella.edmx</DependentUpon>
+    <Content Include="Models\ModelEntity.edmx.diagram">
+      <DependentUpon>ModelEntity.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

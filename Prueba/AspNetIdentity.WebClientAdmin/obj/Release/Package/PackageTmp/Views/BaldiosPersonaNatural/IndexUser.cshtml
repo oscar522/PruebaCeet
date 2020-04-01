@@ -1,0 +1,123 @@
+﻿@model IEnumerable<AspNetIdentity.Models.BaldiosPersonaNaturalModel>
+@{
+    ViewBag.Title = "Index";
+}
+@section Scripts
+             {
+    @Scripts.Render("~/Scripts/ModalControl.js")
+
+        <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(".BuscarArchivo").click(function () {
+                $('#content').html('<div class="loading"><img src="http://localhost:50213/Content/loader.gif" alt="loading" /></div>');
+ 
+                $.ajax({
+                type: 'POST',
+                url: '@Url.Action("BuscaArchivos")',
+                dataType: 'json',
+                data: { IdTable : 1 },
+                success: function(states) {
+                     $('#content').hide();
+                    alert(' Fin ');
+                },
+                error: function (ex) {
+                    console.log(ex.responseText);
+                }
+                });
+        });
+        console.log("ready!");
+    });
+        </script>
+
+
+
+}
+<div class="card mb-4 wow fadeIn">
+
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">Expedientes Asociados </h3>
+        <p class="card-text"></p>
+    </div>
+
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"> </div>
+            <div class="card-body">
+                <table class="table table-hover tableData">
+                    <thead>
+                        <tr>
+                            <th>
+                                Num. Expediente
+                            </th>
+                            <th>
+                                Depto
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IdCiudad)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Vereda)
+                            </th>
+
+                            <th>
+                                Nom. Solicitante
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Identificacion)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.EstadoCaracterizacion)
+                            </th>
+
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NumeroExpediente)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NombreIdDepto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NombreIdCiudad)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Vereda)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NombreBeneficiario)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Identificacion)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EstadoCaracterizacion)
+                                </td>
+
+                                <td>
+                                    <a href='@Url.Action("../BaldiosPersonaNatural/Edit", "Edit", new { IdTable = item.id })' title='Modificar' style='color: #013ADF;'><i class='fa fa-refresh' aria-hidden='true'></i></a>
+                                    <a href="#" onclick="EjecutarModalSlim ('@item.id','BaldiosPersonaNatural','Details','Detalle Expedientes'); return false;" title="Detalle" style="color: #013ADF;"><i class="fa fa-search" aria-hidden="true"></i> </a> 
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

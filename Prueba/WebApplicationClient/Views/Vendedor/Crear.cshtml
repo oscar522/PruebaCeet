@@ -1,0 +1,113 @@
+﻿@model DtoModels.DtoVendedor
+
+    @{
+        ViewBag.Title = "Crear";
+    }
+    <style>
+
+        body {
+            background-color: #848484;
+        }
+    </style>
+    <div class="card mb-4 wow fadeIn">
+
+        <!--Card content-->
+        <div class="card-body d-sm-flex justify-content-between">
+            <h3 class="card-title">Vendedores </h3>
+        </div>
+
+    </div>
+    <div class="row wow fadeIn">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">  <a href="https://localhost:44362/Vendedor/Crear">Crear </a></div>
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <h4>DtoClientes</h4>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Apellidos, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Apellidos, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Identificacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Identificacion, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Identificacion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IdCiudad, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("IdCiudad", new SelectList(string.Empty, "Value", "Text"), "Seleccione", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IdCiudad, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        @Html.EditorFor(model => model.Estado)
+                                        @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Create" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div>
+                        @Html.ActionLink("Back to List", "Index")
+                    </div>
+
+                    @section Scripts {
+                        @Scripts.Render("~/bundles/jqueryval")
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $.ajax({
+                                        type: 'POST',
+                                        url: '@Url.Action("ListCiudad")', // we are calling json method
+                                        dataType: 'json',
+                                        success: function(states) {
+
+                                            $.each(states, function (i, state) {
+                                                $("#IdCiudad").append('<option value="' + state.Value + '">' +state.Text + '</option>');
+                                            });
+                                        },
+                                        error: function (ex) {
+                                            console.log(ex.responseText);
+                                        }
+                                    });
+
+                            });
+                        </script>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>

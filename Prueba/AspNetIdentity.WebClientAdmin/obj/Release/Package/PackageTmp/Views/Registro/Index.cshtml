@@ -1,0 +1,136 @@
+﻿@model IEnumerable<AspNetIdentity.Models.RegistroModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section Scripts
+             {
+    @Scripts.Render("~/Scripts/ModalControl.js")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#TableID').dataTable({
+                  dom: "B<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'<'#colvis'>p>>",
+                buttons: [
+                    { "extend": 'pdf', "text":'Pdf',"className": 'btn-outline-success' },
+                    { "extend": 'excel', "text":'Exc',"className": ' btn-outline-success ' },
+                    { "extend": 'print', "text":'Imp',"className": ' btn-outline-success ' }
+                ],
+                "order": [[2,'asc']],
+                "language": { "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json" },
+                "pageLength": 10,
+            });  //Initialize the datatable
+
+            $("#TableID tbody tr").each(function (index) {
+                var estado = $(this).find("td").eq(2).html().trim();
+                if (estado == 'True') {
+                    $(this).find("td").eq(2).html("Con Registro")
+                } else if (estado.trim() == 'False') {
+                    $(this).find("td").eq(2).html("Sin Registro")
+                } else {
+
+                }
+
+            });
+
+            
+
+        });
+    </script>
+
+}
+
+
+
+<div class="card mb-4 wow fadeIn">
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">Registro </h3>
+        <p class="card-text"></p>
+    </div>
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">  </div>
+            <div class="card-body">
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-hover " id="TableID">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NumeroExpediente)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FVerificacion)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Estado)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Matricula)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Fapertura)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TipoDocumento) -  @Html.DisplayNameFor(model => model.NumDocumento) -  @Html.DisplayNameFor(model => model.FDocumento)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NombreIdDepto)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NombreIdMunicipio)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Area)
+                                </th>
+
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NumeroExpediente)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FVerificacion)
+                                    </td>
+                                    <td>
+                                        @item.Estado
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Matricula)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Fapertura)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TipoDocumento) -  @Html.DisplayFor(modelItem => item.NumDocumento) -  @Html.DisplayFor(modelItem => item.FDocumento)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NombreIdDepto)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NombreIdMunicipio)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Area)
+                                    </td>
+                                    <td>
+                                        <a href='@Url.Action("../Registro/Edit", "Edit", new { IdTable = item.Id })' title='Modificar' style='color: #013ADF;'><i class='fa fa-refresh' aria-hidden='true'></i></a>
+                                        <a href="#" onclick="EjecutarModalSlim ('@item.IdExpediente','BaldiosPersonaNatural','Details','Detalle Expedientes'); return false;" title="Detalle" style="color: #013ADF;"><i class="fa fa-search" aria-hidden="true"></i> </a> 
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,27 @@
+﻿@model AspNetIdentity.Models.HvCtDeptoModel
+
+@{
+    ViewBag.Title = "Detalle Departamento" + @Html.DisplayFor(modelItem => Model.NOMBRE);
+}
+
+ 
+                <dl class="dl-horizontal">
+                    
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ID_CT_PAIS)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NOMBRE_PAIS)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NOMBRE)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NOMBRE)
+                    </dd>
+
+                </dl>
+     

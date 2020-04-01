@@ -1,0 +1,81 @@
+﻿@model AspNetIdentity.WebClientAdmin.Models.RegisterViewModel
+
+@using (Html.BeginForm("Create", "Assessments", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <!-- Heading -->
+    <div class="card mb-4 wow fadeIn">
+
+        <!--Card content-->
+        <div class="card-body d-sm-flex justify-content-between">
+            <h4 class="mb-2 mb-sm-0 pt-1">
+                <span>Nuevo Evaluado</span>
+            </h4>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-success my-0 p waves-effect waves-light">
+                    <i class="fa fa-save"></i> Guardar
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <!-- Heading -->
+
+    @Html.HiddenFor(model => Model.Level)
+    @Html.HiddenFor(model => Model.RoleName)
+    @Html.HiddenFor(model => Model.Id_User)
+    @Html.HiddenFor(model => Model.Id_Account)
+    @Html.HiddenFor(model => Model.RootUser)
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.Name)
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", name = "name", placeholder = "Nombre" })
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.FirstName)
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", name = "firstname", placeholder = "Apellido paterno" })
+                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.LastName)
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", name = "lastname", placeholder = "Apellido materno" })
+                        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", name = "username", placeholder = "Email" })
+                        <small id="emailHelp" class="form-text text-muted">Esté email será el id de usuario para ingresar a la plataforma.</small>
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.Password)
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", name = "password", placeholder = "************" })
+                        <small id="emailHelp" class="form-text text-muted">Te sugerimos conformar tu contraseña con minúsculas, mayúsculas, números, signos y al menos 8 caracteres para mayor seguridad.</small>
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.ConfirmPassword)
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", name = "confirmpassword", placeholder = "************" })
+                        <small id="emailHelp" class="form-text text-muted">Debes ingresar la misma contraseña que generaste en el campo anterior.</small>
+                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+        </div>
+    </div>
+}

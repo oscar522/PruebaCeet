@@ -1,0 +1,61 @@
+﻿@model IEnumerable<AspNetIdentity.Models.CtGeneroModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section Scripts
+             {
+    @Scripts.Render("~/bundles/jqueryval")   @Scripts.Render("~/Scripts/ModalControl.js")
+
+   
+}
+<div class="card mb-4 wow fadeIn">
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">Genero </h3>
+        <p class="card-text">Hoja de Vida / Genero</p>
+    </div>
+</div>
+<div class="row wow fadeIn"> 
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">  <a href="#" onclick="EjecutarModalSlim ('','HvCtGenero','Crear','CREAR GENERO'); return false;">Crear Actitudes</a></div>
+            <div class="card-body">
+                <table class="table table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ID_GENERO)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NOMBRE)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ID_GENERO)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NOMBRE)
+                                </td>
+                                <td>
+
+                                    <a href="#" onclick="EjecutarModalSlim ('@item.ID_GENERO','HvCtGenero','Edit','MODIFICAR GENERO'); return false;" title="Modificar" style="color: #013ADF;"><i class="fa fa-refresh" aria-hidden="true"></i></a> |
+                                    <a href="#" onclick="EjecutarModalSlim ('@item.ID_GENERO','HvCtGenero','Details','DETALLE GENERO'); return false;" title="Detalle" style="color: #013ADF;"><i class="fa fa-search" aria-hidden="true"></i> </a> |
+                                    <a href="#" onclick="EjecutarModalSlim ('@item.ID_GENERO','HvCtGenero','Delete','BORRAR GENERO'); return false;" title="Borrar" style="color: #013ADF;"><i class="fa fa-trash" aria-hidden="true"></i></a> |
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

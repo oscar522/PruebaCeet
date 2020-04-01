@@ -1,0 +1,81 @@
+﻿@model IEnumerable<AspNetIdentity.Models.HvCtTipoIdentificacionModel>
+
+@{
+    ViewBag.Title = "HvCtTipoIdentificacion";
+}
+@section Scripts
+             {
+    @Scripts.Render("~/bundles/jqueryval")   @Scripts.Render("~/Scripts/ModalControl.js")
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+}
+<div class="card mb-4 wow fadeIn">
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">Tipo de Identificacion</h3>
+        <p class="card-text">Hoja de Vida / Tipo de Identificacion</p>
+    </div>
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">  <a href="#" onclick="EjecutarModalSlim ('','HvCtTipoIdentificacion','Crear', 'CREAR TIPO DE IDENTIFICACION'); return false;">Crear Tipo Identificación </a></div>
+            <div class="card-body">
+                <table class="table table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.NOMBRE)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NOMBRE)
+                                </td>
+                                <td>
+                                    <a href="#" onclick="EjecutarModalSlim ('@item.ID_CT_TIPO_IDENTIFICACION','HvCtTipoIdentificacion','Edit','MODIFICAR TIPO IDENTIFICACION'); return false;" title="Modificar" style="color: #013ADF;"><i class="fa fa-refresh" aria-hidden="true"></i></a> |
+                                    <a href="#" onclick="EjecutarModalSlim ('@item.ID_CT_TIPO_IDENTIFICACION','HvCtTipoIdentificacion','Detail','DETALLE TIPO IDENTIFICACION'); return false;" title="Detalle" style="color: #013ADF;"><i class="fa fa-search" aria-hidden="true"></i> </a> |
+                                    <a href="#" onclick="EjecutarModalSlim ('@item.ID_CT_TIPO_IDENTIFICACION','HvCtTipoIdentificacion','Delete','BORRAR TIPO IDENTIFICACION'); return false;" title="Borrar" style="color: #013ADF;"><i class="fa fa-trash" aria-hidden="true"></i></a> |
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+    </div>
+</div>
+
+<div class="modal fade" id="centralModalLGInfoDemo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading lead">Modal Info</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <a type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal" onclick="location.reload()">Cerrar</a>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- Modal: modalCart -->

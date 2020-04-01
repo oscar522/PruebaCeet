@@ -1,0 +1,80 @@
+﻿@model DtoModels.DtoVendedor
+
+@{
+    ViewBag.Title = "Delete";
+}
+<style>
+
+    body {
+        background-color: #848484;
+    }
+</style>
+<div class="card mb-4 wow fadeIn">
+
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">Vendedores </h3>
+    </div>
+
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">  <a href="https://localhost:44362/Vendedor/Crear">Crear </a></div>
+            <div class="card-body">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Nombre)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Apellidos)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Apellidos)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Identificacion)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Identificacion)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NombreCiudad)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NombreCiudad)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Estado)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Estado)
+                    </dd>
+
+                </dl>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Delete" class="btn btn-default" /> |
+                        @Html.ActionLink("Back to List", "Index")
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

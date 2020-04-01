@@ -1,0 +1,81 @@
+﻿@model List<AspNetIdentity.WebClientAdmin.Models.SidebarItem>
+
+    <div id="SidebarCustom" class="sidebar-fixed position-fixed">
+        <a class="waves-effect">
+            <img src="http://sit.agenciadetierras.gov.co/web/Content/Images/login-logos.png" class="img-fluid" alt="">
+        </a>
+        <div id="MenuClose" class="align-content-xl-end">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </div>
+        <ul id="no-waves" class="list-group list-group-flush">
+            @foreach (AspNetIdentity.WebClientAdmin.Models.SidebarItem sidebarItem in Model)
+            {
+                if (sidebarItem.Sub == null)
+                {
+                    <a href="@Url.Action(sidebarItem.actionName, sidebarItem.controllerName)" class=" nav-item list-group-item list-group-item-action waves-effect" id="@sidebarItem.id">
+                        <i class="@sidebarItem.iconText"></i>@sidebarItem.linkText
+                    </a>
+                }
+                else
+                {
+                    <a class="nav-item list-group-item list-group-item-action waves-effect dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" id="@sidebarItem.id">
+                        <i class="@sidebarItem.iconText"></i>&nbsp; &nbsp;  @sidebarItem.linkText
+                    </a>
+                    <div class="dropdown-menu dropdown-secondary">
+
+                        @foreach (AspNetIdentity.WebClientAdmin.Models.SidebarItem SubModel in sidebarItem.Sub)
+                        {
+                            if (SubModel.Sub == null)
+                            {
+                                <div class="dropdown-divider"></div>
+                                <a href="@Url.Action(SubModel.actionName, SubModel.controllerName)" class="dropdown-item " id="@SubModel.id">
+                                    <i class="@SubModel.iconText"></i>&nbsp; &nbsp;@SubModel.linkText
+                                </a>
+                            }
+                        }
+                    </div>
+                }
+            }
+        </ul>
+
+    </div>
+<div class="modal fade" id="centralModalLGInfoDemoSlim" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-white green darken-">
+                <div id="H  eaderSlim" class="heading lead 3"></div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text" >×</span>
+                </button>
+            </div>
+            <div class="modal-body" id="BodySlim">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="centralModalLGInfoDemo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header text-white green darken-">
+                <p class="heading lead">Modal Info</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <a type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal" onclick="location.reload()">Cerrar</a>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- Modal: modalCart -->

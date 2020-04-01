@@ -1,0 +1,27 @@
+<svg width="344.3" height="50.5" xmlns="http://www.w3.org/2000/svg">
+ <style type="text/css">.st0{fill:#00A9F4;}
+	.st1{opacity:0.36;fill:url(#SVGID_1_);}
+	.st2{opacity:0.36;fill:url(#SVGID_2_);}
+	.st3{fill:#FFFFFF;}</style>
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="Layer_1">
+   <circle id="svg_1" r="25.3" cy="25.3" cx="25.3" class="st0"/>
+   <g id="svg_2"/>
+  </g>
+  <g id="Capa_2">
+   <path id="svg_20" d="m36.3,48.1l-12.4,-32.9c0,0 -11.5,1.6 -11.8,1.7c-0.3,0.1 -5.2,9.8 -5.2,9.8s1.3,17.8 12,22.7c0.7,0.3 1.3,0.6 2,0.8c1.5,0.3 2.9,0.4 4.5,0.4c3.8,0 7.5,-0.9 10.9,-2.5z" class="st1"/>
+   <path id="svg_21" d="m26.6,18.3l0.3,0.8l9.3,29c4.8,-2.3 8.7,-6.1 11.3,-10.8l-5.4,-19l-15.5,0z" class="st2"/>
+   <g id="svg_22">
+    <path id="svg_23" d="m24.5,33.8c-1.4,0.5 -4.1,1.1 -6.7,1.1c-3.7,0 -6.4,-0.9 -8.2,-2.7c-1.8,-1.8 -2.9,-4.4 -2.9,-7.4c0,-6.7 4.9,-10.6 11.5,-10.6c2.6,0 4.6,0.5 5.6,1l-1,3.7c-1.1,-0.5 -2.5,-0.9 -4.7,-0.9c-3.8,0 -6.7,2.2 -6.7,6.5c0,4.2 2.6,6.6 6.4,6.6c1,0 1.9,-0.1 2.2,-0.3l0,-4.3l-3,0l0,-3.6l7.5,0l0,10.9z" class="st3"/>
+    <path id="svg_24" d="m32,18.3l-5.5,0l0,-3.8l15.5,0l0,3.8l-5.5,0l0,16.4l-4.5,0l0,-16.4z" class="st3"/>
+   </g>
+  </g>
+  <text stroke="null" transform="matrix(1,0,0,1.31783063778388,0,-9.411004382117381) " xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="32" id="svg_25" y="37.500024" x="54.149761" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#000000">Gestores de Talento</text>
+ </g>
+</svg>

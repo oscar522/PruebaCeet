@@ -1,0 +1,160 @@
+﻿@model IEnumerable<AspNetIdentity.Models.CtCiudadModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+@section Scripts
+             {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/ModalControl.js")
+
+    <script type="text/javascript">
+        //function Ejecutar(Idtable, Idcontroll, IdAction) {
+        //    $("#centralModalLGInfoDemo").modal();
+        //    $.ajax({
+        //        url: '/' + Idcontroll + '/' + IdAction + '?IdTable=' + Idtable,
+        //        success: function (result) {
+        //            var idpais = 0;
+        //            GetPais(idpais);
+        //            $('.modal-body').html(result);
+        //        }
+        //    });
+        //}
+
+        //function Editar_(Idtable, Idcontroll, IdAction, idpais, iddepto) {
+        //    $("#centralModalLGInfoDemo").modal();
+        //    $.ajax({
+        //        url: '/' + Idcontroll + '/' + IdAction + '?IdTable=' + Idtable,
+        //        success: function (result) {
+        //            //alert("idpais " + idpais + " iddepto " + iddepto);
+        //            GetDepto(idpais, iddepto);
+        //            GetPais(idpais);
+        //            $('.modal-body').html(result);
+
+
+        //        }
+        //    });
+
+        //}
+        function GetPais(id) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ListPais")', // we are calling json method
+                dataType: 'json',
+                success: function (states) {
+                     // alert("ok_pais");
+                    $.each(states, function (i, state) {
+                        if (id == state.Value) {
+                            $("#ID_CT_PAIS").append('<option value="' + state.Value + '" selected>' + state.Text + '</option>');
+                        } else {
+                            $("#ID_CT_PAIS").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                        }
+                    });
+                },
+                error: function (ex) {
+                    console.log(ex.responseText);
+                }
+            });
+        }
+        function GetDepto(idp,idd) {
+        $("#ID_CT_DEPTO").empty();
+        //  alert("okdepto" + $("#ID_CT_PAIS").val());
+                $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ListDeptoId")', // we are calling json method
+                dataType: 'json',
+                    data: { IdP: idp },
+                success: function (states) {
+                    //alert("okdepto");
+                    $.each(states, function (i, state) {
+                        if (idd == state.Value) {
+                            $("#ID_CT_DEPTO").append('<option value="' + state.Value + '" selected>' + state.Text + '</option>');
+                        } else {
+                            $("#ID_CT_DEPTO").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                        }
+                    });
+                },
+                error: function (ex) {
+                    console.log(ex.responseText);
+                }
+                });
+        }
+        function ChangePais() {
+            $("#ID_CT_DEPTO").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ListDeptoId")', // we are calling json method
+                dataType: 'json',
+                data: { IdP: $("#ID_CT_PAIS").val() },
+                    success: function(states) {
+                        //alert("okdepto");
+                        $("#ID_CT_DEPTO").append('<option value="">Seleccione</option>');
+                        $.each(states, function (i, state) {
+                            $("#ID_CT_DEPTO").append('<option value="' + state.Value + '">' +state.Text + '</option>');
+                        });
+                    },
+                error: function (ex) {
+                    console.log(ex.responseText);
+                }
+            });
+        }
+    </script>
+
+}
+<div class="card mb-4 wow fadeIn">
+
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">Ciudad </h3>
+        <p class="card-text">Hoja de Vida / Ciudad</p>
+    </div>
+
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">  <a href="#" id="Crear_" onclick="Ejecutar ('','HvCtCiudad','Crear'); return false;">Crear Ciudad</a></div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                DEPARTAMENTO
+                            </th>
+                            <th>
+                                PAIS
+                            </th>
+                            <th>
+                                CIUDAD
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(model => item.NOMBRE_DEPTO)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.NOMBRE_PAIS)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                </td>
+                                <td>
+                                    <a href="#" onclick="EjecutarModalSlim ('@item.id','HvCtCiudad','Edit','MODIFICAR CIUDAD'); return false;" title="Modificar" style="color: #013ADF;"><i class="fa fa-refresh" aria-hidden="true"></i></a> |
+                                    <a href="#" onclick="EjecutarModalSlim ('@item.id','HvCtCiudad','Details','DETALLE CIUDAD'); return false;" title="Detalle" style="color: #013ADF;"><i class="fa fa-search" aria-hidden="true"></i> </a> |
+                                    <a href="#" onclick="EjecutarModalSlim ('@item.id','HvCtCiudad','Delete','BORRAR CIUDAD'); return false;" title="Borrar" style="color: #013ADF;"><i class="fa fa-trash" aria-hidden="true"></i></a> |
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<DtoModels.DtoVendedor>
+
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+
+    body {
+        background-color: #848484;
+    }
+</style>
+<div class="card mb-4 wow fadeIn">
+
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">Vendedores </h3>
+    </div>
+
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">  <a href="https://localhost:44362/Vendedor/Crear">Crear </a></div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Apellidos)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Identificacion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NombreCiudad)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Estado)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Apellidos)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Identificacion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NombreCiudad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Estado)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { idTable = item.Id }) |
+                                @Html.ActionLink("Details", "Details", new { idTable = item.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { idTable = item.Id })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

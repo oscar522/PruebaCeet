@@ -1,0 +1,168 @@
+﻿@model IEnumerable<AspNetIdentity.Models.ConceptoModel>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="card mb-4 wow fadeIn">
+
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h4 class="mb-2 mb-sm-0 pt-1">
+            <span>Conceptos</span>
+        </h4>
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-success my-0 p waves-effect waves-light" href="@Url.Action("Crear", "Concepto")"><i class="fa fa-id-card"></i> Nuevo </a>
+        </div>
+    </div>
+
+</div>
+<br />
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- Card -->
+        <div class="card">
+
+            <!-- Card image -->
+            @*<img class="card-img-top" src="https://image.freepik.com/vector-gratis/gente-negocios-lupa-graficos_1262-18918.jpg" alt="Card image cap">*@
+            <div id="UripdfDiv"></div>
+            <!-- Card content -->
+            <div class="card-body">
+                <div class="form-horizontal">
+                    <div class="row  justify-content-center">
+                        <div class="form-group col-md-11">
+                            <div class="table-responsive text-nowrap">
+                                <table id="table_id" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Usuario Creo
+                                            </th>
+
+                                            <th>
+                                                Usuario Asociado
+                                            </th>
+                                            <th>
+                                                Rol
+                                            </th>
+                                            <th>
+                                                Causal
+                                            </th>
+                                           
+                                            <th>
+                                                Orfeo
+                                            </th>
+                                            <th>
+                                                F. Creacion
+                                            </th>
+                                            <th>
+                                                Estado
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    <thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            var gg = (item.Id / 2.0).ToString().Contains(".");
+                                            var color = "";
+                                            if (gg == true)
+                                            {
+                                                color = "#AFFF8D";
+                                            }
+
+                                            <tr style="background-color:@color">
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.NombreAspNetUsers)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.UserAsociado)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Rol)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.NombreCausa)
+                                                </td>
+                                              
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.IdOrfeo)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.FechaCreacion)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Estado)
+                                                </td>
+                                                <td>
+                                                    <a href='@Url.Action("../Concepto/Edit", "Edit", new { IdTable = item.Id })' title='Modificar' style='color: #013ADF;'><i class='fa fa-refresh' aria-hidden='true'></i></a>
+                                                    <a href='@Url.Action("../Concepto/Details", "Details", new { IdTable = item.Id })' title='Modificar' style='color: #013ADF;'><i class='fa fa-search' aria-hidden='true'></i></a>
+                                                    <a href="#"  title="Detalle" style="color: #013ADF;"><i class="fa fa-times-circle" aria-hidden="true"></i> </a>
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+             {
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var oTable = $('#table_id').dataTable({
+
+                "order": [[1, "desc"]],
+                "language": { "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json" },
+                "pageLength": 10,
+                "searching": true,
+                dom: "B<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'<'#colvis'>p>>",
+                buttons: [
+                    { "extend": 'pdf', "text": 'Pdf', "className": 'btn-outline-success' },
+                    { "extend": 'excel', "text": 'Exc', "className": ' btn-outline-success ' },
+                    { "extend": 'print', "text": 'Imp', "className": ' btn-outline-success ' }
+                ],
+               
+            });
+
+             $.getJSON('@Url.Content("~/Content/ConfigPdfUri.json")', function (data) {
+
+                var UriLo = data.result[0].Uri;
+                var UriPdf ="";
+                var UriRe = data.result[0].UriRe;
+
+                var pathname = window.location.href;
+
+                if (pathname.indexOf(UriRe) > -1) {
+                    UriPdf = UriRe;
+                } else {
+                    UriPdf = UriLo;
+                }
+                 $("#UripdfDiv").val(UriPdf);
+                });
+             $(".LinkSoporte").click(function () {
+                var UrlData = $(this).attr("Data").trim();
+                 var url = "http://" + $('#UripdfDiv').val() + "/Content/Pdfs/Conceptos/" + UrlData;
+                 window.open(url, '_blank');
+             });
+             $(".LinkAnexo").click(function () {
+                var UrlData = $(this).attr("Data").trim();
+                 var url = "http://" + $('#UripdfDiv').val() + "/Content/Pdfs/Conceptos/" + UrlData;
+                 window.open(url, '_blank');
+            });
+            //Initialize the datatable
+        });
+
+    </script>
+    }
+
+

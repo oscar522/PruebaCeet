@@ -1,0 +1,117 @@
+﻿@model AspNetIdentity.Models.AccountTableModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+<script type="text/javascript" src="~/Scripts/ModalControl.js"></script>
+<div class="card mb-4 wow fadeIn">
+
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">Editar Account  @Html.DisplayFor(modelItem => Model.Name) </h3>
+    </div>
+
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">  </div>
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <h4>AccountTableModel</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Id_Account, new { htmlAttributes = new { @class = "form-control", @type = "hidden" } })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Id_Country, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("Id_Country", new SelectList(string.Empty, "Value", "Text"), "Seleccione", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Id_Country, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @Html.EditorFor(model => model.NombreCountry, new { htmlAttributes = new { @class = "form-control", @type = "hidden" , @value = "ok"} })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Id_Code, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Id_Code, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Id_Code, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @Html.EditorFor(model => model.CreationDate, new { htmlAttributes = new { @class = "form-control", @type = "hidden" } })
+                        @Html.EditorFor(model => model.ImageName, new { htmlAttributes = new { @class = "form-control", @type = "hidden" } })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.EditorFor(model => model.Active)
+                                    @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        @Html.EditorFor(model => model.LastChangeDate, new { htmlAttributes = new { @class = "form-control", @type = "hidden" } })
+
+                        @Html.EditorFor(model => model.LastChangeUser, new { htmlAttributes = new { @class = "form-control", @type = "hidden" } })
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Save" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div>
+
+                </div>
+                <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+                <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+                @section Scripts {
+                    @Scripts.Render("~/bundles/jqueryval")   @Scripts.Render("~/Scripts/ModalControl.js") }
+                    <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $.ajax({
+                                                type: 'POST',
+                                                url: '@Url.Action("ListPais")', // we are calling json method
+                                                dataType: 'json',
+                                                success: function(states) {
+                                                  //   alert("ok_pais");
+                                                    $.each(states, function (i, state) {
+                                                        if ('@Model.Id_Country' == state.Value) {
+                                                            $("#Id_Country").append('<option value="' + state.Value + '" selected>' + state.Text + '</option>');
+                                                        } else {
+                                                            $("#Id_Country").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                                                        }
+                                                    });
+
+                                                },
+                                                error: function (ex) {
+                                                    console.log(ex.responseText);
+                                                }
+                                            });
+
+                                        console.log("ready!");
+                                    });
+                    </script>
+                
+            </div>
+        </div>
+    </div>
+</div>

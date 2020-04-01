@@ -1,0 +1,40 @@
+﻿@model AspNetIdentity.WebClientAdmin.Models.UsersModel
+
+@using (Html.BeginForm("UserModal", "Users", FormMethod.Post))
+{
+    <div class="modal-header blue darken-3">
+        <h4 class="modal-title w-100 white-text" id="myModalLabel">Usuario</h4>
+        <button type="button" class="close white-text" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        @Html.HiddenFor(model=> Model.Id_User)
+
+        <div class="form-group">
+            @Html.LabelFor(model => Model.Name)
+            @Html.TextBoxFor(model => Model.Name, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.FirstName)
+            @Html.TextBoxFor(model => Model.FirstName, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.LastName)
+            @Html.TextBoxFor(model => Model.LastName, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.Email)
+            @Html.TextBoxFor(model => Model.Email, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="custom-control custom-checkbox">
+            @Html.CheckBoxFor(model => Model.Active, htmlAttributes: new { @class = "custom-control-input" })
+            @Html.LabelFor(model => Model.Active, htmlAttributes: new { @class = "custom-control-label" })
+        </div>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </div>
+    <div class="modal-footer">
+        <input type="submit" class="btn btn-primary btn-sm" value="Guardar" />
+    </div>
+}

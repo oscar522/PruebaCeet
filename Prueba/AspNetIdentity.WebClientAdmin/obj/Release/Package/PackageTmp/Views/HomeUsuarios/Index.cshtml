@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@*<div class="jumbotron">
+        <h1>GESTORES TALENTO HUMANO</h1>
+        <p class="lead text-justify">
+            Compañía con 10 años en el mercado, orientada a la comercialización de herramientas de evaluación online, facilitando tus procesos de selección, desarrollo y retención del Talento Humano. También aportamos valor a nuestros clientes, ofreciendo diversas soluciones on-line para elevar la cultura ética organizacional.
+        </p>
+    </div>*@
+<!-- Jumbotron -->
+
+    <div class="row">
+        <div class="col-md-4">
+            <!-- Card -->
+            <div class="card">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Numero de Expedientes Asociados</h6>
+                    <h4 class="card-title text-center" id="total"> </h4>
+                    <a href="@Url.Action("Index", "BaldiosPersonaNatural")" class="btn btn-primary">Ver Más &raquo;</a>
+                </div>
+            </div>
+            <!-- Card -->
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Numero de Expedientes en Gestion</h6>
+                    <h4 class="card-title text-center" id="totalEdit"></h4>
+                    <a href="@Url.Action("IndexUser", "BaldiosPersonaNatural")" class="btn btn-primary">Ver Más &raquo;</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Numero de Expedientes Mal Nombrados</h6>
+                    <h4 class="card-title text-center" id="totalMal"></h4>
+                    <a href="@Url.Action("IndexUserMal", "BaldiosPersonaNatural")" class="btn btn-primary">Ver Más &raquo;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Count")', 
+            dataType: 'json',
+            success: function(states) {
+                $("#total").text(states) ;
+            },
+            error: function (ex) {
+                console.log(ex.responseText);
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("CountEdit")', 
+            dataType: 'json',
+            success: function(states) {
+                $("#totalEdit").text(states) ;
+            },
+            error: function (ex) {
+                console.log(ex.responseText);
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("CountMalNombrados")', 
+            dataType: 'json',
+            success: function(states) {
+                $("#totalMal").text(states) ;
+            },
+            error: function (ex) {
+                console.log(ex.responseText);
+            }
+        });
+
+         $.ajax({
+            type: 'POST',
+            url: '@Url.Action("CountEdit")', 
+            dataType: 'json',
+            success: function(states) {
+                $("#totalEdit").text(states) ;
+            },
+            error: function (ex) {
+                console.log(ex.responseText);
+            }
+        });
+
+    });
+
+</script>
+
+

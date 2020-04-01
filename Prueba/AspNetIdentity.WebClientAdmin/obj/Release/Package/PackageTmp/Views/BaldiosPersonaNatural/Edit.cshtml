@@ -1,0 +1,493 @@
+﻿@model AspNetIdentity.Models.BaldiosPersonaNaturalModel
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+           
+        // obtiene la url de los pdf
+            $.getJSON('@Url.Content("~/Content/ConfigPdfUri.json")', function (data) {
+                debugger;
+                var UriLo = data.result[0].Uri;
+                var UriPdf ="";
+                var UriRe = data.result[0].UriRe;
+
+                var pathname = window.location.href;
+
+                if (pathname.indexOf(UriRe) > -1) {
+                    UriPdf = UriRe;
+                } else {
+                    UriPdf = UriLo;
+                }
+
+            $("#UriLink").val(UriPdf);//UriLink
+           
+        });
+
+
+
+             var options = {
+                page: 1,
+                pdfOpenParams: {
+                    navpanes: 1,
+                    view: "FitH",
+                    pagemode: "thumbs"
+                }
+            };
+            var UrlLink = "Pdf = ";
+            var ArrayUrl = '@Model.RutaArchivoOriginal'.split("+");
+            var ArrayUrlName = '@Model.NombreArchivo'.split("+");
+            var UriLinkV = document.getElementById("UriLink").Value;
+            debugger;
+            for (var i = 0; i < ArrayUrl.length; i++) {
+                    UrlLink = UrlLink + "- <a  href='#' class = 'LinkPdf' Data = '"+ArrayUrl[i]+"' > " + ArrayUrlName[i] + " </a> ";
+                if (i == 0) {
+                    PDFObject.embed("http://"+UriLinkV+"/Content/Pdfs/" + ArrayUrl[i], "#PdfViewer", options);
+                    document.getElementById("ArchivoActual").value = ArrayUrl[i];
+                    document.getElementById("ArchivoNombre").value = ArrayUrlName[i];
+                } else { }
+            }
+            document.getElementById("ListPdf").innerHTML = UrlLink;
+
+
+             $(".LinkPdf").click(function () {
+                var Url = $(this).text().trim();
+                var UrlData = $(this).attr("Data").trim();
+                PDFObject.embed("http://"+ $("#UriLink").val()+"/Content/Pdfs/"+UrlData, "#PdfViewer", options);
+                $("#ArchivoActual").val(UrlData);
+                $("#ArchivoNombre").val(Url);
+            });
+
+            function MaysPrimera(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+
+            function BuscaDocumento(IdDoc, Text) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ListExpedienteDocumentosByIdDoc")',
+                    dataType: 'json',
+                    data: { Id: @Model.id+"," + IdDoc },
+                    success: function (s) {
+                        var ClassPaint = "";
+                        if (s != "") {
+                            ClassPaint = 'style="background-color:#CACFD2;"';
+                        }
+                        $("#TipoDoc").append('<option value="' + IdDoc + '" ' + ClassPaint + ' >' + Text + ' </option>');
+                    },
+                    error: function (e) {
+                    }
+                });
+
+            }
+
+            $("#EstadoExpFin option").each(function () {
+                var EstadoExpId = 0;
+                if ('@Model.EstadoCaracterizacion' == 'True') { EstadoExpId = 1; } else { EstadoExpId = 0; }
+                if ($(this).val() == EstadoExpId) {
+                    $(this).attr("selected", true)
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ListRetencionDocumentalGrupo")',
+                dataType: 'json',
+                success: function (states) {
+                    $.each(states, function (i, state) {
+                        $("#GrupoDoc").append('<option value="' + state.Value + '">' + MaysPrimera(state.Text.toLowerCase()) + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    console.log(ex.responseText);
+                }
+            });
+
+            $("#TipoDoc").change(function () {
+                $("#IPaginaInicial").attr("DataID", "" + $("#TipoDoc").val() + "");
+                $("#IPaginaFinal").attr("DataID", "" + $("#TipoDoc").val() + "");
+            });
+
+
+            // verifica el nombre del archivo
+            $("#EstadoExp option").each(function () {
+                if ($(this).val() == @Model.TipoArchivo) {
+                    $(this).attr("selected", true)
+                }
+            });
+
+            if (@Model.TipoArchivo == 1) {
+                $("#TipoDoc").prop("disabled", false);
+                $("#IPaginaInicial").prop("disabled", false);
+                $("#GrupoDoc").prop("disabled", false);
+            } else if (@Model.TipoArchivo == 0) {
+                $("#TipoDoc").prop("disabled", true);
+                $("#IPaginaInicial").prop("disabled", true);
+                $("#GrupoDoc").prop("disabled", true);
+            }else if (@Model.TipoArchivo == 2) {
+                $("#TipoDoc").prop("disabled", true);
+                $("#IPaginaInicial").prop("disabled", true);
+                $("#GrupoDoc").prop("disabled", true);
+            }
+
+
+            $("#EstadoExp").change(function () {
+                var Valor = $(this).val();
+                if (Valor == 1) {
+                    $("#TipoDoc").prop("disabled", false);
+                    $("#IPaginaInicial").prop("disabled", false);
+                    $("#GrupoDoc").prop("disabled", false);
+                } else if (Valor == 0) {
+                    $("#TipoDoc").prop("disabled", true);
+                    $("#IPaginaInicial").prop("disabled", true);
+                    $("#GrupoDoc").prop("disabled", true);
+                } else if (Valor == 2) {
+                    $("#TipoDoc").prop("disabled", true);
+                    $("#IPaginaInicial").prop("disabled", true);
+                    $("#GrupoDoc").prop("disabled", true);
+                }
+            });
+
+            $(".UploadBtnc").click(function () {
+                var state = 0;
+
+                if ($("#EstadoExp").val() == 0 || $("#EstadoExp").val() == 2) {
+                    state = 1;
+                }
+
+                if ($("#GrupoDoc").val() == "" && $("#EstadoExp").val() == 1) {
+                    $("#GrupoDocE").text('Debe Seleccionar un Grupo');
+                    $("#GrupoDocE").fadeOut(6000);
+                    state = 1;
+                }
+
+                if ($("#TipoDoc").val() == "" && $("#EstadoExp").val() == 1) {
+                    $("#TipoDocE").text('Debe Seleccionar un Documento');
+                    $("#TipoDocE").fadeOut(6000);
+                    state = 1;
+                }
+
+                if ($("#IPaginaInicial").val() == "" && $("#EstadoExp").val() == 1) {
+                    $("#IPaginaInicialE").text('Debe Ingresar la Pagina Inicial');
+                    $("#IPaginaInicialE").fadeOut(6000);
+                    state = 1;
+                }
+
+                if ($("#IPaginaFinal").val() == "" && $("#EstadoExp").val() == 1) {
+                    $("#IPaginaFinalE").text('Debe Ingresar la Pagina Final');
+                    $("#IPaginaFinalE").fadeOut(6000);
+                    state = 1;
+                }
+
+                if ($("#EstadoExp").val() == 0 && $("#EstadoExp").val() == 1) {
+                    $("#EstadoExpE").text('Debe Seleccionar un valor');
+                    $("#EstadoExpE").fadeOut(6000);
+                    state = 1;
+                }
+                if (state == 0) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("PostExpedienteDocumentos")',
+                        contetnType:"application_json; charset=utf-8",
+                        dataType: 'json',
+                        data: {
+                            EstadoExp: $("#EstadoExp").val(),
+                            EstadoExpUser: 0,
+                            IdRetencionDocumental: $("#TipoDoc").val(),
+                            IdExpediente: @Model.id,
+                            PagInicial: $("#IPaginaInicial").val(),
+                            PagFinal: $("#IPaginaFinal").val(),
+                            ArchivoActual: $("#ArchivoActual").val(),
+                            ArchivoActualUrl: $("#ArchivoNombre").val()
+                            //ArchivoActual: "Prueba",
+                            //ArchivoActualUrl: "Prueba",
+                        },
+                        success: function (states) {
+                            tabla();
+                            alert("Guardado");
+                            //$("#TipoDoc").empty();
+                        },
+                        error: function (ex) {
+                            alert("Error Contacte al Administrador .");
+                            console.log(ex.responseText);
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("PostUpdateStatus")',
+                        dataType: 'json',
+                        data: {
+                            TypeMetodo: 1,
+                            Id: @Model.id,
+                            ValueMe : $("#EstadoExp").val(),
+                        },
+                        success: function (states) {
+                            alert("Guardado");
+                            debugger;
+                        },
+                        error: function (ex) {
+                            alert("Error Contacte al Administrador ...");
+                            console.log(ex.responseText);
+                        }
+                    });
+
+                }
+            });
+
+            
+
+            $("#FinPro").click(function(){
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("PostUpdateStatus")',
+                    dataType: 'json',
+                        data: {
+                        TypeMetodo: 0,
+                        Id: @Model.id,
+                        ValueMe : 1,
+                    },
+                    success: function (states) {
+                        $("#GuardarFinPro").text('Guardado');
+                        $("#GuardarFinPro").fadeOut(3000);
+                        alert("Guardado");
+                        window.location.href='@Url.Action("Index", "BaldiosPersonaNatural")';
+                    },
+                    error: function (ex) {
+                        alert("Error Contacte al Administrador ..");
+                        console.log(ex.responseText);
+                    }
+                });
+                return false;
+            });
+
+            var oTable = $('#table_id').dataTable({
+                dom: "B<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'<'#colvis'>p>>",
+                buttons: [
+                  { "extend": 'pdf', "text":'Pdf',"className": 'btn-outline-success' },
+                    { "extend": 'excel', "text":'Exc',"className": ' btn-outline-success ' },
+                    { "extend": 'print', "text":'Imp',"className": ' btn-outline-success ' }
+                ],
+                "order": [[1]],
+                "language": { "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json" },
+                "pageLength": 10,
+                "paging": true
+            });  //Initialize the datatable
+
+            function tabla(){
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ListExpedienteDocumentos")',
+                dataType: 'json',
+                data: { Id: @Model.id },
+                success: function (s) {
+                    oTable.fnClearTable();
+                    $.each(s, function (i, obj) {
+                        oTable.fnAddData([
+                            obj.Id,
+                            obj.NombreRetencionDocumental,
+                            //obj.IdExpediente,
+                            //obj.NombreExpediente,
+                            obj.PagInicial,
+                            obj.Estado,
+                            obj.ArchivoUrl + "  |  <a href='../ExpedienteDocumentos/ViewerPdf/" + obj.Id + "' title='Modificar' style='color: #013ADF;' target = '_blank'> <i class='fa fa-eye'>  </i></a>  " +
+                            "  |  <z1 title='Eliminar' Data='"+obj.Id+"' class='EliminaDoc' > <i class='fa fa-times'>  </i></z1>  ",
+                            //obj.UsuarioInserta,
+                            //obj.UsuarioModifica,
+                        ]);
+                    });
+                },
+                error: function(e){
+                     oTable.fnClearTable();
+                }
+            });
+            };
+
+            tabla();
+
+            var tabla2 = $('#table_id').DataTable();
+            $('#table_id tbody').on('click', 'z1', function () {
+                var data = tabla2.row($(this).parents('tr')).data();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("DeleteExpedienteDocumentos")',
+                    dataType: 'json',
+                    data: { IdDoc: data[0] },
+                    success: function(states) {
+                        debugger;
+                        tabla();
+                        alert("Eliminado");
+                    },
+                    error: function (ex) {
+                        console.log(ex.responseText);
+                    }
+                });
+
+            });
+
+            $("#GrupoDoc").change(function () {
+                $("#TipoDoc").empty();
+                //  alert("okdepto" + $("#ID_CT_PAIS").val());
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ListRetencionDocumental")',
+                    dataType: 'json',
+                    data: { Id: $("#GrupoDoc").val() },
+                        success: function(states) {
+
+                            $.each(states, function (i, state) {
+                                    BuscaDocumento(state.Value, state.Text.toLowerCase() )
+                            });
+                        },
+                    error: function (ex) {
+                        console.log(ex.responseText);
+                    }
+                });
+                return false;
+            });
+
+            console.log("ready!");
+    });
+    </script>
+
+
+}
+
+<style>
+    .pdfobject-container {
+        height: 30rem;
+        border: 1rem solid rgba(0,0,0,.1);
+    }
+</style>
+
+<div class="card mb-4 wow fadeIn">
+
+    <!--Card content-->
+    <div class="card-body d-sm-flex justify-content-between">
+        <h3 class="card-title">Tipificación de Expedientes @Model.NumeroExpediente </h3>
+
+        <p class="card-text">
+            Depto : @Model.NombreIdDepto  |
+            Municipio :  @Model.NombreIdCiudad <br />
+            Vereda : @Model.Vereda |
+            Solicitante : @Model.NombreBeneficiario
+        </p>
+    </div>
+
+</div>
+<div class="row wow fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header text-right">
+                <div id="ListPdf"> </div>
+            </div>
+            <div class="card-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <div class="form-group col-md-12">
+                                <h5 class="form-group text-center">Nuevo Documento </h5>
+                                <hr />
+                            </div>
+                            <div class="form-group col-md-12 ">
+                                El Archivo esta bien nombrado ?
+                                <div class="col-md-12">
+                                    <select id="EstadoExp" name="EstadoExp" class="form-control">
+                                        <option value="0" selected>Seleccione</option>
+                                        <option value="1">Si</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                Grupo :
+                                <div class="col-md-12">
+                                    @Html.DropDownList("GrupoDoc", new SelectList(string.Empty, "Value", "Text"), "Seleccione", new { @class = "form-control" })
+                                    <div id="GrupoDocE" class="text-danger"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                Documento :
+                                <div class="col-md-12">
+                                    @Html.DropDownList("TipoDoc", new SelectList(string.Empty, "Value", "Text"), "Seleccione", new { @class = "form-control" })
+                                    <div id="TipoDocE" class="text-danger"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                Pagina Inicial :
+                                <div class="col-md-12" id="DPaginaInicial">
+                                    <input class="form-control" type="number" id="IPaginaInicial" value="" DataID="" />
+                                    <div id="IPaginaInicialE" class="text-danger"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12" style="display:none">
+                                Pagina Final :
+                                <div class="col-md-12" id="DPaginaFinal">
+                                    <input class="form-control" type="hidden" id="IPaginaFinal" value="0" DataID="" />
+                                    <div id="IPaginaFinalE" class="text-danger"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12 text-center" id="DMas">
+                                    <input id="fff" type="submit" value="Guardar" class="btn btn-primary align-content-center UploadBtnc" />
+                                    <div id="GuardarE" class="text-success"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12 text-center" id="DMas">
+                                    <input id="FinPro" type="submit" value="Finalizar Proceso" class="btn btn-primary align-content-center" />
+                                    <div id="GuardarFinPro" class="text-success"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group col-md-9">
+                            <div class="col-md-12">
+                                <div id="PdfViewer"></div>
+                                <input type="hidden" id="ArchivoActual" name="ArchivoActual" />
+                                <input type="hidden" id="ArchivoNombre" name="ArchivoNombre" />
+                                <input type="hidden" id="UriLink" name="UriLink" />
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.js"></script>
+                                <script>
+
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="card">
+            <div class="card-header">Documentos Creados</div>
+            <br />
+            <div class="card-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <table id="table_id" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th> Id </th>
+                                        <th> Nombre Documental </th>
+                                        @*<th> Id Expediente </th>
+                                            <th>Nombre Expediente </th>*@
+                                        <th>Pagina Inicial</th>
+                                        <th>Estado </th>
+                                        <th>Nombre Archivo</th>
+                                        @*<th>Usuario Inserta</th>
+                                            <th>Usuario Modifica</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,20 @@
+﻿@model AspNetIdentity.Models.HvCtTipoIdentificacionModel
+
+@{
+    ViewBag.Title = "Detalle Tipo De Identificación" + @Html.DisplayFor(modelItem => Model.NOMBRE);
+}
+
+
+                <dl class="dl-horizontal">
+                    
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NOMBRE)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NOMBRE)
+                    </dd>
+
+                </dl>
+
+          

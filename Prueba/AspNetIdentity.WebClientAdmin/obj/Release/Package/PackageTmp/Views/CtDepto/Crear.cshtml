@@ -1,0 +1,92 @@
+﻿@model AspNetIdentity.Models.HvCtDeptoModel
+
+@{
+    ViewBag.Title = "Create";
+
+
+}
+<script type="text/javascript" src="~/Scripts/ModalControl.js"></script>
+
+
+@using (Html.BeginForm("Crear", "HvCtDepto", FormMethod.Post, htmlAttributes: new { id = "car-form", @name = "car-form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ID_CT_PAIS, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-10">
+                @Html.DropDownList("ID_CT_PAIS", new SelectList(string.Empty, "Value", "Text"), "Seleccione", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ID_CT_PAIS, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NOMBRE, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NOMBRE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NOMBRE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+
+                <a id="btn-sendForm" href="#" class="btn btn-primary" onclick="Redir('CrearJson', 'HvCtDepto')">Enviar</a>
+                <div id="respuesta"> </div>
+                @Html.EditorFor(model => model.NOMBRE_PAIS, new { htmlAttributes = new { @class = "form-control", @Style = "display:none", @Value = "ok" } })
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")   @Scripts.Render("~/Scripts/ModalControl.js")
+
+}
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ListPais")', // we are calling json method
+                dataType: 'json',
+                success: function(states) {
+
+                    $.each(states, function (i, state) {
+                        $("#ID_CT_PAIS").append('<option value="' + state.Value + '">' +state.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    console.log(ex.responseText);
+                }
+            });
+
+    });
+</script>
+
+<!-- Modal: modalCart -->
+<div class="modal fade" id="centralModalLGInfoDemoSlim" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-white blue darken-">
+                <div id="HeaderSlim" class="heading lead 3"></div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">×</span>
+                </button>
+            </div>
+            <div class="modal-body" id="BodySlim">
+            </div>
+
+        </div>
+    </div>
+</div>
